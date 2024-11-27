@@ -17,20 +17,18 @@ import java.util.List;
 @WebServlet(name = "detailsServlet", value = "/detail")
 public class AnnouncementDetailsServlet extends HttpServlet {
     private IAnnonceDao annonceDao;
-    private List<Annonce> annonces;
 
     public void init() {
         annonceDao = new AnnonceDao();
-        annonces = new ArrayList<>();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        annonces = annonceDao.getAllAnnonces();
-        annonces.forEach(System.out::println);
+        String id = request.getParameter("id");
+        var annonce = annonceDao.getAnnonceById(Integer.parseInt(id));
 
-        request.setAttribute("annonces", annonces);
+        request.setAttribute("annonceDetails", annonce);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("displayAnnouncements.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("announcementDetails.jsp");
 
 
         try {

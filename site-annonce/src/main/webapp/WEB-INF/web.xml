@@ -12,9 +12,17 @@
         <servlet-name>displayAnnoncesServlet</servlet-name>
         <servlet-class>com.riadh.siteannonce.controller.DisplayAnnoncesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>detailsServlet</servlet-name>
+        <servlet-class>com.riadh.siteannonce.controller.AnnouncementDetailsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>displayAnnoncesServlet</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>detailsServlet</servlet-name>
+        <url-pattern>/detail</url-pattern>
     </servlet-mapping>
 
 </web-app>
