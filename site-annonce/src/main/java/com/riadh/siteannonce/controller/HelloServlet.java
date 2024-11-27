@@ -16,21 +16,23 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {
-    private IAnnonceDao daoAcces;
+    private IAnnonceDao annonceDao;
     private List<Annonce> annonces;
 
     public void init() {
-        daoAcces = new AnnonceDao();
+        annonceDao = new AnnonceDao();
         annonces = new ArrayList<>();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        annonces = daoAcces.getAllAnnonces();
+        annonces = annonceDao.getAllAnnonces();
         annonces.forEach(System.out::println);
 
         request.setAttribute("annonces", annonces);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("DisplayAnnonces.jsp");
+
+
         try {
             System.out.println("Début de redirection");
             dispatcher.forward(request, response);
