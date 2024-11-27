@@ -10,11 +10,11 @@
 
     <servlet>
         <servlet-name>displayAnnoncesServlet</servlet-name>
-        <servlet-class>com.riadh.siteannonce.controller.DisplayAnnoncesServlet</servlet-class>
+        <servlet-class>com.coding.siteannonce.controller.DisplayAnnoncesServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>detailsServlet</servlet-name>
-        <servlet-class>com.riadh.siteannonce.controller.AnnouncementDetailsServlet</servlet-class>
+        <servlet-class>com.coding.siteannonce.controller.AnnouncementDetailsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>displayAnnoncesServlet</servlet-name>
