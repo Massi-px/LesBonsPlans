@@ -1,7 +1,4 @@
 
-<%@ page import="java.util.List" %>
-<%@ page import="com.coding.siteannonce.dao.AnnonceDao" %>
-<%@ page import="com.coding.siteannonce.model.Annonce" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
