@@ -34,8 +34,10 @@
 
             <c:forEach items="<%=annonces%>" var="annonce">
                 <li class="p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 pointer">
-                    <h3 class="text-xl font-semibold text-gray-700">${annonce.title}</h3>
-                    <p class="text-gray-600">${annonce.description}</p>
+                    <button type="button" onclick="window.location.href='/site_annonce_war/detail?id=${annonce.id}'">
+                        <h3 class="text-xl font-semibold text-gray-700">${annonce.title}</h3>
+                        <p class="text-gray-600">${annonce.description}</p>
+                    </button>
                 </li>
             </c:forEach>
 

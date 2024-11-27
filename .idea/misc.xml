@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="af70b283-1520-4571-bae0-66393bf4c7f8" />
-  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/site-annonce/pom.xml" />
       </list>
     </option>
   </component>
