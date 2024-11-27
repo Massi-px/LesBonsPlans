@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AnnonceDao implements IAnnonceDao {
@@ -57,18 +58,22 @@ public class AnnonceDao implements IAnnonceDao {
     @Override
     public List<Annonce> searchWithParam(String param) {
         try {
+            HashMap<Integer, Annonce> annonces = new HashMap<>();
             Connection connection = dataSource.getConnection();
+            var paramSplit = param.split(" ");
+
             PreparedStatement statement = connection.prepareStatement(SQL_SEARCH_WITH_PARAM);
-            statement.setString(1, "%" + param + "%");
-            statement.setString(2, "%" + param + "%");
-            ResultSet resultSet = statement.executeQuery();
-            List<Annonce> annonces = new ArrayList<>();
-            while (resultSet.next()) {
-                Annonce annonce = mapResultSetToAnnonces(resultSet);
-                annonces.add(annonce);
+            for (String split : paramSplit) {
+                statement.setString(1, "%" + split + "%");
+                statement.setString(2, "%" + split + "%");
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    Annonce annonce = mapResultSetToAnnonces(resultSet);
+                    annonces.put(annonce.getId(), annonce);
+                }
             }
             connection.close();
-            return annonces;
+            return annonces.values().stream().toList();
         } catch (SQLException e) {
             System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
         }
