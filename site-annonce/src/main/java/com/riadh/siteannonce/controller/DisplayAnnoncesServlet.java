@@ -1,21 +1,19 @@
 package com.riadh.siteannonce.controller;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.riadh.siteannonce.dao.AnnonceDao;
 import com.riadh.siteannonce.dao.IAnnonceDao;
 import com.riadh.siteannonce.model.Annonce;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.*;
+import javax.servlet.http.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "displayAnnoncesServlet", value = "/")
+public class DisplayAnnoncesServlet extends HttpServlet {
     private IAnnonceDao annonceDao;
     private List<Annonce> annonces;
 
@@ -30,7 +28,7 @@ public class HelloServlet extends HttpServlet {
 
         request.setAttribute("annonces", annonces);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("DisplayAnnonces.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("displayAnnouncements.jsp");
 
 
         try {

@@ -18,7 +18,7 @@
   </properties>
 
   <dependencies>
-      <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+
       <dependency>
           <groupId>org.mariadb.jdbc</groupId>
           <artifactId>mariadb-java-client</artifactId>
@@ -31,15 +31,6 @@
           <version>1.2</version>
       </dependency>
 
-<!--      &lt;!&ndash; https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api &ndash;&gt;-->
-<!--      <dependency>-->
-<!--          <groupId>jakarta.servlet.jsp.jstl</groupId>-->
-<!--          <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>-->
-<!--          <version>3.0.0</version>-->
-<!--      </dependency>-->
-
-
-
       <dependency>
           <groupId>javax.servlet</groupId>
           <artifactId>javax.servlet-api</artifactId>
@@ -51,10 +42,11 @@
 
   <build>
     <plugins>
-<plugin>
+        <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
-      </plugin>    </plugins>
+        </plugin>
+    </plugins>
   </build>
 </project>

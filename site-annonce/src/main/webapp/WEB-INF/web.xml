@@ -3,4 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+
+    <welcome-file-list>
+        <welcome-file>/</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>displayAnnoncesServlet</servlet-name>
+        <servlet-class>com.riadh.siteannonce.controller.DisplayAnnoncesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>displayAnnoncesServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
 </web-app>
