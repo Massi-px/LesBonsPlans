@@ -1,12 +1,13 @@
-package com.riadh.siteannonce.dao;
+package com.coding.siteannonce.dao;
 
-import com.riadh.siteannonce.model.Annonce;
+import com.coding.siteannonce.model.Annonce;
 
 import java.util.List;
 
 public interface IAnnonceDao {
 
     List<Annonce> getAllAnnonces();
+    List<Annonce> searchWithParam(String param);
     Annonce getAnnonceById(int id);
 
 }

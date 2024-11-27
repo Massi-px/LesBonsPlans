@@ -1,8 +1,8 @@
-package com.riadh.siteannonce.controller;
+package com.coding.siteannonce.controller;
 
-import com.riadh.siteannonce.dao.AnnonceDao;
-import com.riadh.siteannonce.dao.IAnnonceDao;
-import com.riadh.siteannonce.model.Annonce;
+import com.coding.siteannonce.dao.AnnonceDao;
+import com.coding.siteannonce.dao.IAnnonceDao;
+import com.coding.siteannonce.model.Annonce;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

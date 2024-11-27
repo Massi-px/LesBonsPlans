@@ -1,7 +1,7 @@
-package com.riadh.siteannonce.model;
+package com.coding.siteannonce.model;
 
-import com.riadh.siteannonce.dao.AnnonceDao;
-import com.riadh.siteannonce.dao.IAnnonceDao;
+import com.coding.siteannonce.dao.AnnonceDao;
+import com.coding.siteannonce.dao.IAnnonceDao;
 
 public class Launcher {
 
@@ -11,7 +11,8 @@ public class Launcher {
 
         //daoAcces.getAllAnnonces().forEach(System.out::println);
 
-        var hh = daoAcces.getAnnonceById(1);
+        String param = "75";
+        var hh = daoAcces.searchWithParam( param );
         System.out.println(hh);
     }
 

@@ -1,4 +1,4 @@
-package com.riadh.siteannonce.connection;
+package com.coding.siteannonce.connection;
 
 import javax.sql.DataSource;
 import java.io.IOException;

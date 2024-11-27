@@ -1,4 +1,4 @@
-package com.riadh.siteannonce.model;
+package com.coding.siteannonce.model;
 
 public class Annonce {
 

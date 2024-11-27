@@ -1,7 +1,7 @@
-package com.riadh.siteannonce.dao;
+package com.coding.siteannonce.dao;
 
-import com.riadh.siteannonce.connection.AppDataSource;
-import com.riadh.siteannonce.model.Annonce;
+import com.coding.siteannonce.connection.AppDataSource;
+import com.coding.siteannonce.model.Annonce;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -21,6 +21,14 @@ public class AnnonceDao implements IAnnonceDao {
 
     private static final String SQL_SELECT_ALL = """
             SELECT * FROM annonces
+            """;
+
+    private static final String SQL_SEARCH_WITH_PARAM = """
+            SELECT *
+            FROM annonces
+            WHERE
+            title LIKE?
+            OR description LIKE?
             """;
 
     public AnnonceDao() {
@@ -44,6 +52,27 @@ public class AnnonceDao implements IAnnonceDao {
             System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
         }
         return accessList;
+    }
+
+    @Override
+    public List<Annonce> searchWithParam(String param) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_SEARCH_WITH_PARAM);
+            statement.setString(1, "%" + param + "%");
+            statement.setString(2, "%" + param + "%");
+            ResultSet resultSet = statement.executeQuery();
+            List<Annonce> annonces = new ArrayList<>();
+            while (resultSet.next()) {
+                Annonce annonce = mapResultSetToAnnonces(resultSet);
+                annonces.add(annonce);
+            }
+            connection.close();
+            return annonces;
+        } catch (SQLException e) {
+            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+        }
+        return List.of();
     }
 
 
