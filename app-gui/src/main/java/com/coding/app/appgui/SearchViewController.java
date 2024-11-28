@@ -1,5 +1,6 @@
 package com.coding.app.appgui;
 
+import com.coding.app.data.dao.AnnonceDao;
 import com.coding.app.data.model.Annonce;
 import com.coding.app.dispacher.Dispacher;
 import com.coding.app.utils.SiteEnum;
@@ -20,7 +21,7 @@ public class SearchViewController {
     @FXML
     private TextField refreshFrequencyField;
     @FXML
-    private ListView<String> listingsListView;
+    private ListView<Annonce> listingsListView;
 
 
     @FXML
@@ -40,14 +41,18 @@ public class SearchViewController {
             fetchLeBonCoinListings(keywords);
         }
     }
+    private final AnnonceDao annonceDao = new AnnonceDao();
+
+    @FXML
+    private void onSaveSelectedClick() {
+        List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
+        for (Annonce annonce : selectedAnnonces) {
+            annonceDao.saveAnnonce(annonce);
+        }
+    }
 
     private void displayListings(List<Annonce> annonces) {
-        ObservableList<String> listings = FXCollections.observableArrayList();
-        for (Annonce a : annonces) {
-
-            listings.add("Title: " + a.getTitle() + "\nLink: " + a.getSite() + "\nImage: " + a.getPath() + "\nDate: " + a.getCreatedAt());
-        }
-
+        ObservableList<Annonce> listings = FXCollections.observableArrayList(annonces);
         listingsListView.setItems(listings);
     }
 

@@ -100,8 +100,7 @@ public class ApiUtils {
 
                     Annonce annonce = new Annonce(
                             title,
-                            imageUrl,
-                            imageUrl,
+                            "Leboncoin",
                             "https://www.leboncoin.fr"+ lienannonce,
                             new Timestamp(System.currentTimeMillis())
 
