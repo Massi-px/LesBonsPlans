@@ -14,6 +14,7 @@ module com.coding.app.appgui {
     requires java.desktop;
     requires java.sql;
     requires org.json;
+    requires org.jsoup;
 
     opens com.coding.app.appgui to javafx.fxml;
     exports com.coding.app.appgui;
