@@ -2,6 +2,7 @@ package com.coding.siteannonce.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ import com.google.gson.Gson;
 
 @WebServlet(name="/api/announcement", value = "/api/announcement")
 public class AnnonceApiServlet extends HttpServlet {
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
     private IAnnonceDao annonceDao;
     public AnnonceApiServlet() {
         super();
@@ -29,6 +30,7 @@ public class AnnonceApiServlet extends HttpServlet {
 
     private void sendAsJson(HttpServletResponse response, Object obj) throws IOException {
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         String res = gson.toJson(obj);
         PrintWriter out = response.getWriter();
         out.print(res);
