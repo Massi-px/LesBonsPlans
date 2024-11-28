@@ -68,7 +68,6 @@ public class AnnonceDao implements IAnnonceDao {
                 statement.setString(1, "%" + split + "%");
                 statement.setString(2, "%" + split + "%");
                 ResultSet resultSet = statement.executeQuery();
-                System.out.println(resultSet);
                 while (resultSet.next()) {
                     Annonce annonce = mapResultSetToAnnonces(resultSet);
                     annonces.put(annonce.getId(), annonce);
@@ -87,10 +86,10 @@ public class AnnonceDao implements IAnnonceDao {
     public Annonce getAnnonceById(int id) {
 
         try {
-            Connection        connection = dataSource.getConnection();
+            Connection   connection = dataSource.getConnection();
             PreparedStatement statement  = connection.prepareStatement(SQL_SELECT_BY_ID);
             statement.setInt(1, id);
-            ResultSet         resultSet  = statement.executeQuery();
+            ResultSet resultSet  = statement.executeQuery();
             Annonce annonce = null;
             while (resultSet.next()) {
                 annonce = mapResultSetToAnnonces( resultSet );
@@ -110,6 +109,8 @@ public class AnnonceDao implements IAnnonceDao {
         annonce.setDescription(resultSet.getString("description"));
         annonce.setPath( resultSet.getString("path"));
         annonce.setImage(resultSet.getString("image"));
+        annonce.setLink("http://localhost:8080/site_annonce_war/detail?id=" + annonce.getId());
+        System.out.println(annonce);
         return annonce;
     }
 }

@@ -39,9 +39,7 @@ public class AnnonceApiServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("keyword");
-        System.out.println(search);
         List<Annonce>announcement = annonceDao.searchWithParam(search);
-        System.out.println(announcement);
         if (announcement == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

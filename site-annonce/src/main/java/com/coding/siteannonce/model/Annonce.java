@@ -7,16 +7,18 @@ public class Annonce {
     private String path;
     private String image;
     private String description;
+    private String link;
 
     public Annonce() {
     }
 
-    public Annonce(int id, String title, String path, String image, String description) {
+    public Annonce(int id, String title, String path, String image, String description, String link) {
         this.id = id;
         this.title = title;
         this.path = path;
         this.image = image;
         this.description = description;
+        this.link = link;
     }
 
     public Annonce(String title, String path, String image, String description) {
@@ -66,6 +68,14 @@ public class Annonce {
         this.description = description;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
 
     @Override
     public String toString() {
@@ -75,6 +85,7 @@ public class Annonce {
                 ", path='" + path + '\'' +
                 ", image='" + image + '\'' +
                 ", description='" + description + '\'' +
+                ", link='" + link + '\'' +
                 '}';
     }
 }
