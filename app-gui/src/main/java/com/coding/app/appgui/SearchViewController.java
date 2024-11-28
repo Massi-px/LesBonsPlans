@@ -25,7 +25,7 @@ public class SearchViewController {
 
     @FXML
     public void initialize() {
-        siteCheckComboBox.getItems().addAll("LesBonsPlans", "AnotherSite");
+        siteCheckComboBox.getItems().addAll("LesBonsPlans", "LeBonCoin");
     }
 
     @FXML
@@ -35,6 +35,9 @@ public class SearchViewController {
 
         if ("LesBonsPlans".equals(selectedSite)) {
             fetchLesBonsPlansListings(keywords);
+        }
+        if ("LeBonCoin".equals(selectedSite)) {
+            fetchLeBonCoinListings(keywords);
         }
     }
 
@@ -52,6 +55,14 @@ public class SearchViewController {
 
     private void fetchLesBonsPlansListings(String keywords) {
         var siteWrapper = dispacher.dispach( SiteEnum.LES_BONS_PLANS );
+        siteWrapper.setParams( keywords );
+        var liste = siteWrapper.search();
+
+        displayListings(liste );
+
+    }
+    private void fetchLeBonCoinListings(String keywords) {
+        var siteWrapper = dispacher.dispach( SiteEnum.LE_BON_COIN );
         siteWrapper.setParams( keywords );
         var liste = siteWrapper.search();
 
