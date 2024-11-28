@@ -10,7 +10,7 @@
     -fx-text-fill: #333;
 }
 
-.text-field, .combo-box, .button {
+.text-field, .button {
     -fx-font-size: 14px;
     -fx-padding: 10;
     -fx-border-color: #ccc;

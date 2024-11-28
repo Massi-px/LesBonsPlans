@@ -13,38 +13,34 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 
+
+<?import org.controlsfx.control.CheckComboBox?>
 <TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.LesBonsPlans">
   <Tab text="Search" closable="false">
-    <VBox alignment="CENTER" spacing="20.0">
+    <VBox spacing="20.0">
       <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets top="20.0"/>
       </padding>
-
-      <HBox spacing="10.0">
-        <Label text="Keywords:"/>
-        <TextField fx:id="keywordsField" promptText="Enter keywords"/>
+      <HBox spacing="20.0" alignment="CENTER_LEFT">
+        <VBox spacing="10.0">
+          <Label text="Keywords:"/>
+          <TextField fx:id="keywordsField" promptText="Enter keywords" maxWidth="200"/>
+        </VBox>
+        <VBox spacing="10.0">
+          <Label text="Select Site:"/>
+          <CheckComboBox fx:id="siteCheckComboBox" prefWidth="200" />
+        </VBox>
+        <VBox spacing="10.0">
+          <Label text="Refresh Frequency (minutes):"/>
+          <TextField fx:id="refreshFrequencyField" promptText="Enter frequency"/>
+        </VBox>
+        <VBox spacing="10.0">
+          <padding>
+            <Insets top="20.0"/>
+          </padding>
+        <Button text="Start Search" onAction="#onStartSearchClick"/>
+        </VBox>
       </HBox>
-
-      <HBox spacing="10.0">
-        <Label text="Select Site:"/>
-        <ComboBox fx:id="siteComboBox">
-          <items>
-            <FXCollections fx:factory="observableArrayList">
-              <String fx:value="LesBonsPlans"/>
-              <String fx:value="Site 2"/>
-              <String fx:value="Site 3"/>
-            </FXCollections>
-          </items>
-        </ComboBox>
-      </HBox>
-
-      <HBox spacing="10.0">
-        <Label text="Refresh Frequency (minutes):"/>
-        <TextField fx:id="refreshFrequencyField" promptText="Enter frequency"/>
-      </HBox>
-
-      <Button text="Start Search" onAction="#onStartSearchClick"/>
-
       <ListView fx:id="listingsListView">
         <items>
           <FXCollections fx:factory="observableArrayList"/>
