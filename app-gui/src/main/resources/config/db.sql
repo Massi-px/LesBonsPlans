@@ -35,7 +35,10 @@ CREATE TABLE `annonces` (
                          `title` varchar(250) NOT NULL,
                          `path` varchar(250) NOT NULL,
                          `image` varchar(250) NOT NULL,
-                         `description` varchar(250) NOT NULL
+                         `description` varchar(250) NOT NULL,
+                         `link` varchar(250) NOT NULL,
+                         `date` datetime NOT NULL ,
+
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

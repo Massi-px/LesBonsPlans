@@ -1,4 +1,4 @@
-package com.coding.siteannonce.connection;
+package com.coding.app.connection;
 
 import javax.sql.DataSource;
 import java.io.IOException;
