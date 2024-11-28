@@ -4,6 +4,7 @@ import com.coding.siteannonce.connection.AppDataSource;
 import com.coding.siteannonce.model.Annonce;
 
 import javax.sql.DataSource;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,6 +68,7 @@ public class AnnonceDao implements IAnnonceDao {
                 statement.setString(1, "%" + split + "%");
                 statement.setString(2, "%" + split + "%");
                 ResultSet resultSet = statement.executeQuery();
+                System.out.println(resultSet);
                 while (resultSet.next()) {
                     Annonce annonce = mapResultSetToAnnonces(resultSet);
                     annonces.put(annonce.getId(), annonce);
