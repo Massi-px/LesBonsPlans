@@ -17,7 +17,7 @@
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }
-.combo-box .arrow, .combo-box .arrow-button
+
 .button {
     -fx-background-color: #007bff;
     -fx-text-fill: white;

@@ -4,14 +4,11 @@ import com.coding.app.data.model.Annonce;
 import com.coding.app.dispacher.Dispacher;
 import com.coding.app.utils.SiteEnum;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.controlsfx.control.CheckComboBox;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.List;
 
