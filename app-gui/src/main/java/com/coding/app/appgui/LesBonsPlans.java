@@ -1,9 +1,8 @@
 package com.coding.app.appgui;
 
 import com.coding.app.data.model.Annonce;
+import com.coding.app.dispacher.Dispacher;
 import com.coding.app.utils.SiteEnum;
-import com.coding.app.wrappers.SBPWrapper;
-import com.coding.app.wrappers.SiteWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -31,7 +30,7 @@ public class LesBonsPlans {
 
     private final ObservableList<String> savedListings = FXCollections.observableArrayList();
 
-    private final SiteWrapper siteWrapper = new SBPWrapper( SiteEnum.LES_BONS_PLANS );
+    private final Dispacher dispacher = new Dispacher();
 
     @FXML
     protected void onStartSearchClick() {
@@ -44,6 +43,7 @@ public class LesBonsPlans {
     }
 
     private void fetchLesBonsPlansListings(String keywords) {
+        var siteWrapper = dispacher.dispach( SiteEnum.LES_BONS_PLANS );
          siteWrapper.setParams( keywords );
         var liste = siteWrapper.search();
 
