@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.LesBonsPlans">
+  <Tab text="Search" closable="false">
+    <fx:include source="./components/SearchView.fxml"/>
+  </Tab>
+  <Tab text="Manage Listings" closable="false">
+    <fx:include source="./components/ManageListingsView.fxml"/>
+  </Tab>
+</TabPane>
