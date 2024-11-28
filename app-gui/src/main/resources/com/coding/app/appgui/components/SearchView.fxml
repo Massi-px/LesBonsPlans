@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.CheckComboBox?>
+<?import javafx.collections.FXCollections?>
+
+<VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.SearchViewController">
+    <padding>
+        <Insets top="20.0"/>
+    </padding>
+    <HBox spacing="20.0" alignment="CENTER_LEFT">
+        <VBox spacing="10.0">
+            <Label text="Keywords:"/>
+            <TextField fx:id="keywordsField" promptText="Enter keywords" maxWidth="200"/>
+        </VBox>
+        <VBox spacing="10.0">
+            <Label text="Select Site:"/>
+            <CheckComboBox fx:id="siteCheckComboBox" prefWidth="200" />
+        </VBox>
+        <VBox spacing="10.0">
+            <Label text="Refresh Frequency (minutes):"/>
+            <TextField fx:id="refreshFrequencyField" promptText="Enter frequency"/>
+        </VBox>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets top="20.0"/>
+            </padding>
+            <Button text="Start Search" onAction="#onStartSearchClick"/>
+        </VBox>
+    </HBox>
+    <ListView fx:id="listingsListView">
+        <items>
+            <FXCollections fx:factory="observableArrayList"/>
+        </items>
+    </ListView>
+</VBox>
