@@ -9,6 +9,7 @@ module com.coding.app.appgui {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires org.json;
 
     opens com.coding.app.appgui to javafx.fxml;
     exports com.coding.app.appgui;

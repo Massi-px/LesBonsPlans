@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.coding.app.appgui.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.LesBonsPlans">
+  <Tab text="Search" closable="false">
+    <VBox alignment="CENTER" spacing="20.0">
+      <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+      </padding>
+
+      <HBox spacing="10.0">
+        <Label text="Keywords:"/>
+        <TextField fx:id="keywordsField" promptText="Enter keywords"/>
+      </HBox>
+
+      <HBox spacing="10.0">
+        <Label text="Select Site:"/>
+        <ComboBox fx:id="siteComboBox">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="LesBonsPlans"/>
+              <String fx:value="Site 2"/>
+              <String fx:value="Site 3"/>
+            </FXCollections>
+          </items>
+        </ComboBox>
+      </HBox>
+
+      <HBox spacing="10.0">
+        <Label text="Refresh Frequency (minutes):"/>
+        <TextField fx:id="refreshFrequencyField" promptText="Enter frequency"/>
+      </HBox>
+
+      <Button text="Start Search" onAction="#onStartSearchClick"/>
+
+      <ListView fx:id="listingsListView">
+        <items>
+          <FXCollections fx:factory="observableArrayList"/>
+        </items>
+      </ListView>
+    </VBox>
+  </Tab>
+
+  <!-- Management Tab -->
+  <Tab text="Manage Listings" closable="false">
+    <VBox alignment="CENTER" spacing="20.0">
+      <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+      </padding>
+
+      <!-- List of saved listings -->
+      <ListView fx:id="savedListingsListView">
+        <items>
+          <FXCollections fx:factory="observableArrayList"/>
+        </items>
+      </ListView>
+
+      <!-- Button to delete selected listing -->
+      <Button text="Delete Selected" onAction="#onDeleteSelectedClick"/>
+    </VBox>
+  </Tab>
+</TabPane>
