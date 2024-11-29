@@ -70,7 +70,9 @@ public class ApiUtils {
     }
 
     public static void displayListings(Annonce a, ObservableList<Annonce> obs) {
-      obs.addFirst(a );
+        if (!obs.contains( a )){
+            obs.add( a );
+        }
     }
 
 

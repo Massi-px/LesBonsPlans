@@ -2,6 +2,7 @@ package com.coding.app.data.model;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Annonce {
 
@@ -90,5 +91,19 @@ public class Annonce {
                 ", image=" + image +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Annonce annonce = (Annonce) o;
+        return Objects.equals( title, annonce.title ) && Objects.equals( site,
+                annonce.site ) && Objects.equals( path, annonce.path ) && Objects.equals( image,
+                annonce.image );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( title, site, path, image );
     }
 }

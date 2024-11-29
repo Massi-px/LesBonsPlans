@@ -39,6 +39,7 @@ public class SearchViewController {
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
     private final AnnonceDao annonceDao = new AnnonceDao();
+    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 
     @FXML
@@ -77,6 +78,7 @@ public class SearchViewController {
     protected void onStopSearchClick() {
         startSearchButton.setDisable(false);
         stopSearchButton.setDisable(true);
+        scheduler.shutdownNow();
     }
 
     @FXML
@@ -85,8 +87,6 @@ public class SearchViewController {
         stopSearchButton.setDisable(false);
         String keywords = keywordsField.getText();
         var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
-
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
