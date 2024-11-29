@@ -15,6 +15,10 @@
     <padding>
         <Insets top="20.0"/>
     </padding>
+    <HBox spacing="20.0" alignment="TOP_RIGHT">
+        <Label text="Select Site:"/>
+        <CheckComboBox fx:id="siteHistoryCheck" prefWidth="200" accessibleText="Select your site..." />
+    </HBox>
     <HBox spacing="20.0" alignment="CENTER_LEFT">
         <VBox spacing="10.0">
             <Label text="Keywords:"/>
@@ -50,6 +54,7 @@
             </padding>
             <Button text="Clear Search" onAction="#onClearSearchClick" />
         </VBox>
+        <Button text="Save Search" onAction="#onSaveSearchClick" styleClass="button-save-search"/>
     </HBox>
     <ListView fx:id="listingsListView" styleClass="custom-list-view">
         <items>

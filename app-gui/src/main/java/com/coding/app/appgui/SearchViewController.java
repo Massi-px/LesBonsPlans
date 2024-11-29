@@ -1,7 +1,9 @@
 package com.coding.app.appgui;
 
 import com.coding.app.data.dao.AnnonceDAO;
+import com.coding.app.data.dao.RechercheDAO;
 import com.coding.app.data.model.Annonce;
+import com.coding.app.data.model.Recherche;
 import com.coding.app.dispacher.Dispatcher;
 import com.coding.app.utils.SiteEnum;
 import javafx.application.Platform;
@@ -26,6 +28,8 @@ public class SearchViewController {
     @FXML
     public TextField searchListingsField;
     @FXML
+    public CheckComboBox siteHistoryCheck;
+    @FXML
     private TextField keywordsField;
     @FXML
     private CheckComboBox<String> siteCheckComboBox;
@@ -44,26 +48,23 @@ public class SearchViewController {
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
     private final AnnonceDAO annonceDao = new AnnonceDAO();
+    private final RechercheDAO rechercheDao = new RechercheDAO();
     ScheduledExecutorService scheduler;
 
 
     @FXML
     public void initialize() {
-        keywordsField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
-        siteCheckComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
-        refreshFrequencyField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
-
-        // Initial validation
-        validateFields();
-
         HBox.setHgrow(spacer, Priority.ALWAYS);
         siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
         listingsListView.setItems( observabled );
-
+        keywordsField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
+        siteCheckComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
+        refreshFrequencyField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
+        // Initial validation
+        validateFields();
         ContextMenu contextMenu = new ContextMenu();
         MenuItem    menuItem   = new MenuItem("save");
         contextMenu.getItems().addAll(menuItem);
-
         // Set context menu to the ListView
         listingsListView.setContextMenu(contextMenu);
         // Set action event handler for menuItem
@@ -123,6 +124,23 @@ public class SearchViewController {
         List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
         for (Annonce annonce : selectedAnnonces) {
             annonceDao.save( annonce );
+        }
+    }
+
+    @FXML
+    private void onSaveSearchClick () {
+        Recherche recherche = new Recherche();
+        recherche.setKeywords(keywordsField.getText());
+        recherche.setSites(siteCheckComboBox.getCheckModel().getCheckedItems().stream().toString());
+        recherche.setFrequency(Integer.parseInt(refreshFrequencyField.getText()));
+        rechercheDao.addRecherche(recherche);
+    }
+
+    @FXML
+    private void onSearchHistoryClick() {
+        List<Recherche> recherches = rechercheDao.getAllRecherches();
+        for (Recherche recherche : recherches) {
+            System.out.println(recherche);
         }
     }
 
