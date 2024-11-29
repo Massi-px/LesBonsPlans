@@ -15,6 +15,9 @@ import javafx.scene.layout.Region;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class SearchViewController {
     @FXML
@@ -37,11 +40,10 @@ public class SearchViewController {
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
     private final AnnonceDao annonceDao = new AnnonceDao();
 
-    private long refresh;
 
     @FXML
     public void initialize() {
-        refresh = 1L;
+
         HBox.setHgrow(spacer, Priority.ALWAYS);
         siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
         listingsListView.setItems( observabled );
@@ -75,26 +77,26 @@ public class SearchViewController {
     protected void onStopSearchClick() {
         startSearchButton.setDisable(false);
         stopSearchButton.setDisable(true);
-        // Add logic to stop the search if needed
     }
 
     @FXML
     protected void onStartSearchClick() {
+
         String keywords = keywordsField.getText();
         var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
 
-        String refreshFrequency = refreshFrequencyField.getText();
-
-        if (refreshFrequency!= null &&!refreshFrequency.isEmpty()) {
-            refresh = Long.parseLong(refreshFrequency) * 1000;
-        }
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
-                fillListings(keywords, SiteEnum.LES_BONS_PLANS);
+                scheduler.scheduleAtFixedRate(() -> Platform.runLater(
+                        () -> fillListings(keywords, SiteEnum.LES_BONS_PLANS)
+                        ), 0, getRefreshFrequency(), TimeUnit.SECONDS);
             }
             if ("Le Bon Coin".equals(site)) {
-                fillListings(keywords, SiteEnum.LE_BON_COIN);
+                scheduler.scheduleAtFixedRate(() -> Platform.runLater(
+                        () -> fillListings(keywords, SiteEnum.LE_BON_COIN)
+                ), 0, getRefreshFrequency(), TimeUnit.SECONDS);
             }
         }
     }
@@ -122,20 +124,11 @@ public class SearchViewController {
     }
 
     private void fillListings(String keywords, SiteEnum siteEnum) {
-
-        long current = System.currentTimeMillis();
-        long end = current + refresh * 1000;
-//        while (System.currentTimeMillis() < end) {
-//            Thread.sleep(1000);
-//        }
-
         Platform.runLater(new Runnable() {public void run() {
             dispatcher.dispatch( siteEnum, keywords, observabled );
         }});
-
     }
 
-    // Action event handler for menuItem saved state
     private void handleSaveAction() {
         onSaveSelectedClick();
     }
