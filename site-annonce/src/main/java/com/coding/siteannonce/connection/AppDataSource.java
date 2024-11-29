@@ -35,14 +35,13 @@ public class AppDataSource implements DataSource {
 
             try {
                 Class.forName(driver);
-                System.out.println("Connexion OK !");
+                System.out.println("Connexion OK!");
             } catch (ClassNotFoundException e) {
-                System.out.println("le drive est introuvable " + e);
+                System.out.println("The Driver is not found" + e);
             }
 
         } catch (IOException e) {
-            System.out.println("Une erreur s'est produite lors de la lecture" +
-                    " du fichier propertie de la base de données, e");
+            System.out.println("An error occurred while reading the database property file" + e);
         }
     }
 

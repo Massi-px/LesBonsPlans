@@ -25,11 +25,11 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Liste des annonces</h2>
         <ul class="space-y-4">
 
-            <c:forEach items="${annonces}" var="annonce">
+            <c:forEach items="${announcements}" var="announcement">
                 <li class="p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 pointer">
-                    <a href='${pageContext.request.contextPath}/detail?id=${annonce.id}'>
-                        <h3 class="text-xl font-semibold text-gray-700">${annonce.title}</h3>
-                        <p class="text-gray-600">${annonce.description}</p>
+                    <a href='${pageContext.request.contextPath}/detail?id=${announcement.id}'>
+                        <h3 class="text-xl font-semibold text-gray-700">${announcement.title}</h3>
+                        <p class="text-gray-600">${announcement.description}</p>
                     </a>
                 </li>
             </c:forEach>

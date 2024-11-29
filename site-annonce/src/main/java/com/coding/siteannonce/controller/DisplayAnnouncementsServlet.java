@@ -1,8 +1,8 @@
 package com.coding.siteannonce.controller;
 
-import com.coding.siteannonce.dao.AnnonceDao;
-import com.coding.siteannonce.dao.IAnnonceDao;
-import com.coding.siteannonce.model.Annonce;
+import com.coding.siteannonce.dao.AnnouncementDAO;
+import com.coding.siteannonce.dao.IAnnouncementDAO;
+import com.coding.siteannonce.model.Announcement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,22 +12,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "displayAnnoncesServlet", value = "/")
-public class DisplayAnnoncesServlet extends HttpServlet {
+@WebServlet(name = "displayAnnouncementsServlet", value = "/")
+public class DisplayAnnouncementsServlet extends HttpServlet {
 
-    private IAnnonceDao annonceDao;
-    private List<Annonce> annonces;
+    private IAnnouncementDAO dao;
+    private List<Announcement> announcements;
 
     public void init() {
-        annonceDao = new AnnonceDao();
-        annonces = new ArrayList<>();
+        dao = new AnnouncementDAO();
+        announcements = new ArrayList<>();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        annonces = annonceDao.getAllAnnonces();
-        annonces.forEach(System.out::println);
+        announcements = dao.getAll();
+        announcements.forEach(System.out::println);
 
-        request.setAttribute("annonces", annonces);
+        request.setAttribute("announcements", announcements);
         RequestDispatcher dispatcher = request.getRequestDispatcher("displayAnnouncements.jsp");
 
         try {

@@ -1,7 +1,7 @@
 package com.coding.siteannonce.controller;
 
-import com.coding.siteannonce.dao.AnnonceDao;
-import com.coding.siteannonce.dao.IAnnonceDao;
+import com.coding.siteannonce.dao.AnnouncementDAO;
+import com.coding.siteannonce.dao.IAnnouncementDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,16 +14,17 @@ import java.io.IOException;
 @WebServlet(name = "detailsServlet", value = "/detail")
 public class AnnouncementDetailsServlet extends HttpServlet {
 
-    private IAnnonceDao annonceDao;
+    private IAnnouncementDAO dao;
 
     public void init() {
-        annonceDao = new AnnonceDao();
+        dao = new AnnouncementDAO();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         String id = request.getParameter("id");
-        var annonce = annonceDao.getAnnonceById(Integer.parseInt(id));
-        request.setAttribute("annonceDetails", annonce);
+        var announcement = dao.getById(Integer.parseInt(id));
+        request.setAttribute("announcementDetails", announcement);
         RequestDispatcher dispatcher = request.getRequestDispatcher("announcementDetails.jsp");
 
         try {

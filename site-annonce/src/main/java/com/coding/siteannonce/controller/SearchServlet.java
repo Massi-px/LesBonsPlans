@@ -1,8 +1,8 @@
 package com.coding.siteannonce.controller;
 
-import com.coding.siteannonce.dao.AnnonceDao;
-import com.coding.siteannonce.dao.IAnnonceDao;
-import com.coding.siteannonce.model.Annonce;
+import com.coding.siteannonce.dao.AnnouncementDAO;
+import com.coding.siteannonce.dao.IAnnouncementDAO;
+import com.coding.siteannonce.model.Announcement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,10 +19,10 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        IAnnonceDao annonceDao = new AnnonceDao();
-        String search = req.getParameter("keyword");
-        List<Annonce> annonces = annonceDao.searchWithParam(search);
-        req.setAttribute("annonces", annonces);
+        IAnnouncementDAO dao        = new AnnouncementDAO();
+        String             search        = req.getParameter("keyword");
+        List<Announcement> announcements = dao.searchWithParam(search);
+        req.setAttribute("announcements", announcements);
         RequestDispatcher dispatcher = req.getRequestDispatcher("displayAnnouncements.jsp");
 
         try {

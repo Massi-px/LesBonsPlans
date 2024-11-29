@@ -1,6 +1,6 @@
 package com.coding.siteannonce.model;
 
-public class Annonce {
+public class Announcement {
 
     private int id;
     private String title;
@@ -9,10 +9,10 @@ public class Annonce {
     private String description;
     private String link;
 
-    public Annonce() {
+    public Announcement() {
     }
 
-    public Annonce(int id, String title, String path, String image, String description, String link) {
+    public Announcement(int id, String title, String path, String image, String description, String link) {
         this.id = id;
         this.title = title;
         this.path = path;
@@ -21,7 +21,7 @@ public class Annonce {
         this.link = link;
     }
 
-    public Annonce(String title, String path, String image, String description) {
+    public Announcement(String title, String path, String image, String description) {
         this.title = title;
         this.path = path;
         this.image = image;

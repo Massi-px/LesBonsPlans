@@ -11,21 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.coding.siteannonce.dao.AnnonceDao;
-import com.coding.siteannonce.dao.IAnnonceDao;
-import com.coding.siteannonce.model.Annonce;
+import com.coding.siteannonce.dao.AnnouncementDAO;
+import com.coding.siteannonce.dao.IAnnouncementDAO;
+import com.coding.siteannonce.model.Announcement;
 import com.google.gson.Gson;
 
 @WebServlet(name="/api/announcement", value = "/api/announcement")
-public class AnnonceApiServlet extends HttpServlet {
+public class AnnouncementApiServlet extends HttpServlet {
     private final Gson gson = new Gson();
-    private IAnnonceDao annonceDao;
-    public AnnonceApiServlet() {
+    private IAnnouncementDAO dao;
+    public AnnouncementApiServlet() {
         super();
     }
 
     public void init() {
-        annonceDao = new AnnonceDao();
+        dao = new AnnouncementDAO();
     }
 
     private void sendAsJson(HttpServletResponse response, Object obj) throws IOException {
@@ -38,8 +38,8 @@ public class AnnonceApiServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String search = request.getParameter("keyword");
-        List<Annonce>announcement = annonceDao.searchWithParam(search);
+        String             search       = request.getParameter("keyword");
+        List<Announcement> announcement = dao.searchWithParam(search);
         if (announcement == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

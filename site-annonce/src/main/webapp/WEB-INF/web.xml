@@ -9,11 +9,11 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>displayAnnoncesServlet</servlet-name>
-        <servlet-class>com.coding.siteannonce.controller.DisplayAnnoncesServlet</servlet-class>
+        <servlet-name>displayAnnouncementsServlet</servlet-name>
+        <servlet-class>com.coding.siteannonce.controller.DisplayAnnouncementsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>displayAnnoncesServlet</servlet-name>
+        <servlet-name>displayAnnouncementsServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
