@@ -13,6 +13,7 @@ import javafx.scene.control.Tab;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ManageListingsViewController {
@@ -30,7 +31,7 @@ public class ManageListingsViewController {
     public void initialize() {
         annonces = FXCollections.observableArrayList(); // Initialize the annonces list
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(() -> Platform.runLater(this::loadAnnonces), 0, 5, java.util.concurrent.TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(() -> Platform.runLater(this::loadAnnonces), 0, 5, TimeUnit.MINUTES);
         setupSiteFilter();
     }
 
