@@ -2,6 +2,7 @@ package com.coding.app.appgui;
 
 import com.coding.app.data.dao.AnnonceDao;
 import com.coding.app.data.model.Annonce;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 public class ManageListingsViewController {
@@ -25,7 +28,9 @@ public class ManageListingsViewController {
 
     @FXML
     public void initialize() {
-        loadAnnonces();
+        annonces = FXCollections.observableArrayList(); // Initialize the annonces list
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> Platform.runLater(this::loadAnnonces), 0, 5, java.util.concurrent.TimeUnit.SECONDS);
         setupSiteFilter();
     }
 
