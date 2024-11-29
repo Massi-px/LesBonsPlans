@@ -3,11 +3,16 @@ package com.coding.app.wrappers;
 import com.coding.app.data.model.Annonce;
 import com.coding.app.utils.ApiUtils;
 import com.coding.app.utils.SiteEnum;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.ObservableList;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.coding.app.utils.ApiUtils.displayListings;
 
 public class SBPWrapper extends SiteWrapper {
 
@@ -20,10 +25,32 @@ public class SBPWrapper extends SiteWrapper {
     }
 
     @Override
-    public List<Annonce> search() {
-        List<Map<String, String>> results = ApiUtils.jsonResponseAPI( getUrl(), getParams() );
+    public <T> void search(ObservableList<T> obs) {
+        String results = ApiUtils.jsonResponseAPI( getUrl(), getParams() );
+        fillObservableList( results, obs );
+    }
 
-        return mapToAnnonces( results );
+    private <T> void fillObservableList(String response, ObservableList<T> obs) {
+
+        try {
+            var mappingTab = new ObjectMapper().readValue(response, ArrayList.class);
+
+            for (Object o : mappingTab) {
+                Map<String, String> map = (Map<String, String>) o;
+                Annonce a = new Annonce();
+                a.setTitle( map.get( "title" ) );
+                a.setPath( map.get( "path" ) );
+                a.setImage( map.get( "image" ) );
+                a.setSite( map.get( "link" ) );
+                a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
+
+                displayListings(a, (ObservableList<String>) obs );
+            }
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException( e );
+        }
+
     }
 
     private List<Annonce> mapToAnnonces(List<Map<String, String>> results) {
@@ -43,6 +70,7 @@ public class SBPWrapper extends SiteWrapper {
         return list;
 
     }
+
     /*
         private int id;
     private String title;

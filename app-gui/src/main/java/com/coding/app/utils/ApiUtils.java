@@ -1,9 +1,9 @@
 package com.coding.app.utils;
 
-
 import com.coding.app.data.model.Annonce;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.ObservableList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,7 +24,10 @@ import java.util.Map;
 
 public class ApiUtils {
 
-    public static List<Map<String, String>> jsonResponseAPI(String url, String keyword) {
+    public static String jsonResponseAPI(
+            String url,
+            String keyword
+    ) {
         try {
             String encodedKeywords = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
             String apiUrl = url + encodedKeywords;
@@ -38,20 +41,28 @@ public class ApiUtils {
             in.close();
             conn.disconnect();
 
-            return bodyToMap(content.toString());
+            return content.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return List.of();
+        return List.of().toString();
     }
 
-    private static List<Map<String, String>> bodyToMap(String body) {
+
+        private static List<Map<String, String>> bodyToMap(String body, ObservableList<String> obs) {
 
         try {
             List<Map<String, String>> list = new ArrayList<>();
             ArrayList mappingTab = new ObjectMapper().readValue(body, ArrayList.class);
             for (Object o : mappingTab) {
                 Map<String, String> map = (Map<String, String>) o;
+                Annonce a = new Annonce();
+                a.setTitle( map.get( "title" ) );
+                a.setPath( map.get( "path" ) );
+                a.setImage( map.get( "image" ) );
+                a.setSite( map.get( "site" ) );
+                a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
+                displayListings(a, obs);
                 list.add(map);
             }
             return list;
@@ -61,13 +72,24 @@ public class ApiUtils {
 
     }
 
-    public static List<Annonce> getListLeBonCoin(String url, String keyword) {
+    public static void displayListings(Annonce a, ObservableList<String> obs) {
+        obs.addFirst(
+                "Title: " + a.getTitle() + "\nLink: " + a.getSite() + "\nImage: " + a.getPath() + "\nDate: " + a.getCreatedAt()
+        );
+    }
+
+
+
+    public static String getListLeBonCoin(
+            String url,
+            String keyword
+    ) {
         try {
 
-            List<Annonce> annonces = new ArrayList<>();
-
-            URL obj = new URL("https://www.leboncoin.fr/recherche?text=" + keyword);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            String encodedKeywords = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
+            String apiUrl = url + encodedKeywords;
+            URL u = new URL(apiUrl);
+            HttpURLConnection con = (HttpURLConnection) u.openConnection();
             con.setRequestMethod("POST");
             con.setDoOutput(true);
             OutputStream os = con.getOutputStream();
@@ -78,46 +100,22 @@ public class ApiUtils {
             System.out.println("POST Response Code :: " + responseCode);
 
             if (responseCode == HttpURLConnection.HTTP_OK) { // success
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
+                BufferedReader in       = new BufferedReader( new InputStreamReader( con.getInputStream() ) );
+                String         inputLine;
+                StringBuilder  response = new StringBuilder();
 
                 while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+                    response.append( inputLine );
                 }
                 in.close();
-
-                Document doc        = Jsoup.parse(response.toString());
-                Elements adListCard = doc.select("div.mb-lg");
-                Elements adCards    = adListCard.select("div.styles_adCard__JzKik");
-
-                for (Element adCard : adCards) {
-                    String title = adCard.select("p[data-qa-id=aditem_title]").text();
-                    String date = adCard.select("p[aria-label^=Date]").text();
-                    String lienannonce = adCard.select("a[data-qa-id=aditem_container]").attr("href");
-                    String location = adCard.select("p[aria-label^=Située]").text();
-                    String imageUrl = adCard.select("img").attr("src");
-
-                    Annonce annonce = new Annonce(
-                            title,
-                            imageUrl,
-                            imageUrl,
-                            "https://www.leboncoin.fr"+ lienannonce,
-                            new Timestamp(System.currentTimeMillis())
-
-                    );
-                    annonces.add(annonce);
-
-                }
-                return annonces;
-            } else {
+                return response.toString();
+            }else {
                 System.out.println("POST request did not work.");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return List.of();
+        return List.of().toString();
     }
 
 

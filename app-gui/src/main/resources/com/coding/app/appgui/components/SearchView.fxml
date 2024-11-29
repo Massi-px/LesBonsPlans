@@ -10,6 +10,11 @@
 <?import org.controlsfx.control.CheckComboBox?>
 <?import javafx.collections.FXCollections?>
 
+<?import com.sun.javafx.scene.control.skin.FXVK?>
+<?import javafx.scene.control.ListCell?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import org.controlsfx.control.SearchableComboBox?>
 <VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.SearchViewController">
     <padding>
         <Insets top="20.0"/>
