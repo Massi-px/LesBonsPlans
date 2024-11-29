@@ -89,7 +89,6 @@ public class SearchViewController {
         startSearchButton.setDisable(false);
         stopSearchButton.setDisable(true);
         scheduler.shutdownNow();
-
     }
 
     @FXML
@@ -163,6 +162,6 @@ public class SearchViewController {
                 filteredList.add(annonce);
             }
         }
-        listingsListView.setItems(filteredList);
+        //listingsListView.setItems(filteredList);
     }
 }
