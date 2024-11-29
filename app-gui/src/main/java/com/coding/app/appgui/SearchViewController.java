@@ -28,7 +28,7 @@ public class SearchViewController {
     @FXML
     public TextField searchListingsField;
     @FXML
-    public CheckComboBox siteHistoryCheck;
+    public ComboBox<String> siteHistoryCheck;
     @FXML
     private TextField keywordsField;
     @FXML
@@ -43,6 +43,7 @@ public class SearchViewController {
     private Button stopSearchButton;
     @FXML
     private Region spacer;
+
 
     private final Dispatcher dispatcher = new Dispatcher();
 
@@ -60,6 +61,7 @@ public class SearchViewController {
         keywordsField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
         siteCheckComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
         refreshFrequencyField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
+        onSearchHistory();
         // Initial validation
         validateFields();
         ContextMenu contextMenu = new ContextMenu();
@@ -131,16 +133,16 @@ public class SearchViewController {
     private void onSaveSearchClick () {
         Recherche recherche = new Recherche();
         recherche.setKeywords(keywordsField.getText());
-        recherche.setSites(siteCheckComboBox.getCheckModel().getCheckedItems().stream().toString());
+        recherche.setSites(siteCheckComboBox.getCheckModel().getCheckedItems().toString());
         recherche.setFrequency(Integer.parseInt(refreshFrequencyField.getText()));
         rechercheDao.addRecherche(recherche);
+        siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
     }
 
-    @FXML
-    private void onSearchHistoryClick() {
+    private void onSearchHistory() {
         List<Recherche> recherches = rechercheDao.getAllRecherches();
         for (Recherche recherche : recherches) {
-            System.out.println(recherche);
+            siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
         }
     }
 
