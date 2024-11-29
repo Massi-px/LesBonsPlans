@@ -8,10 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.ObservableList;
 
 
-import java.sql.Blob;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static com.coding.app.utils.ApiUtils.displayListings;
@@ -53,22 +51,6 @@ public class SBPWrapper extends SiteWrapper {
             Thread.currentThread().interrupt();
             throw new RuntimeException( e );
         }
-
     }
 
-    private List<Annonce> mapToAnnonces(List<Map<String, String>> results) {
-
-        List<Annonce> list = new ArrayList<>();
-
-        for (Map<String, String> res : results) {
-            Annonce a = new Annonce();
-            a.setTitle( res.get( "title" ) );
-            a.setPath( res.get( "link" ) );
-            a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
-            list.add( a );
-        }
-
-        return list;
-
-    }
 }

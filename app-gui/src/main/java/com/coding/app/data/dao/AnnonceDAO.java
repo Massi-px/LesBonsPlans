@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnnonceDao {
+public class AnnonceDAO {
 
     private final DataSource dbSource;
 
@@ -27,18 +27,15 @@ public class AnnonceDao {
     private static final String SQL_INSERT = """
             INSERT INTO annonces (title, site, path,image, created_at) VALUES (?, ?, ?, ?, ?)
             """;
-    private static final String SQL_UPDATE = """
-            UPDATE annonces SET title = ?, site = ? , path = ?, created_at = ?, image=? WHERE id = ?
-            """;
     private static final String SQL_DELETE = "DELETE FROM annonces WHERE id = ?";
 
 
-    public AnnonceDao() {
+    public AnnonceDAO() {
         this.dbSource = new AppDataSource();
     }
 
-    public void saveAnnonce(Annonce annonce) {
-        if (!isAnnonceExists(annonce)) {
+    public void save(Annonce annonce) {
+        if (!isExist(annonce)) {
             try {
                 Connection connection = dbSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
@@ -50,12 +47,12 @@ public class AnnonceDao {
                 statement.executeUpdate();
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+                System.out.println("An error occurred while executing the sql query. " + e);
             }
         }
     }
 
-    private boolean isAnnonceExists(Annonce annonce) {
+    private boolean isExist(Annonce annonce) {
         try {
             Connection connection = dbSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TITLE_AND_LINK);
@@ -66,12 +63,12 @@ public class AnnonceDao {
             connection.close();
             return exists;
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
         return false;
     }
 
-    public Annonce getAnnonceById(int id) {
+    public Annonce getById(int id) {
         try {
             Connection connection = dbSource.getConnection();
             PreparedStatement statement  = connection.prepareStatement(SQL_SELECT_BY_ID);
@@ -79,37 +76,37 @@ public class AnnonceDao {
             ResultSet rs      = statement.executeQuery();
             Annonce   annonce = null;
             while (rs.next()) {
-                annonce = mapResultSetToAnnonces( rs );
+                annonce = mapResultSetToAnnonce( rs );
             }
             connection.close();
             return annonce;
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
         return null;
     }
 
-    public List<Annonce> getAllAnnonces() {
+    public List<Annonce> getAll() {
         try {
             Connection        connection = dbSource.getConnection();
             PreparedStatement statement  = connection.prepareStatement(SQL_SELECT_ALL);
             ResultSet rs = statement.executeQuery();
             List<Annonce> annonces = new ArrayList<>();
             while (rs.next()) {
-                Annonce annonce = mapResultSetToAnnonces( rs );
+                Annonce annonce = mapResultSetToAnnonce( rs );
                 annonces.add(annonce);
             }
             connection.close();
             return annonces;
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
         return List.of();
     }
 
 
 
-    public void deleteAnnonce(int id) {
+    public void deleteById(int id) {
         try {
             Connection connection = dbSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
@@ -117,12 +114,12 @@ public class AnnonceDao {
             statement.executeUpdate();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
     }
 
 
-    private Annonce mapResultSetToAnnonces(ResultSet resultSet) throws SQLException {
+    private Annonce mapResultSetToAnnonce(ResultSet resultSet) throws SQLException {
         return new Annonce(
                 resultSet.getInt("id"),
                 resultSet.getString("title"),

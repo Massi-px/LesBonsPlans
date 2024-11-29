@@ -1,6 +1,6 @@
 package com.coding.app.appgui;
 
-import com.coding.app.data.dao.AnnonceDao;
+import com.coding.app.data.dao.AnnonceDAO;
 import com.coding.app.data.model.Annonce;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -23,7 +23,7 @@ public class ManageListingsViewController {
     @FXML
     private ComboBox<String> siteFilterComboBox;
 
-    private final AnnonceDao annonceDao = new AnnonceDao();
+    private final AnnonceDAO annonceDao = new AnnonceDAO();
     private ObservableList<Annonce> annonces;
 
     @FXML
@@ -35,7 +35,7 @@ public class ManageListingsViewController {
     }
 
     private void loadAnnonces() {
-        List<Annonce> annonceList = annonceDao.getAllAnnonces();
+        List<Annonce> annonceList = annonceDao.getAll();
         annonces = FXCollections.observableArrayList(annonceList);
         savedListingsListView.setItems(annonces);
     }
@@ -70,7 +70,7 @@ public class ManageListingsViewController {
     private void onDeleteSelectedClick() {
         Annonce selectedAnnonce = savedListingsListView.getSelectionModel().getSelectedItem();
         if (selectedAnnonce != null) {
-            annonceDao.deleteAnnonce(selectedAnnonce.getId());
+            annonceDao.deleteById(selectedAnnonce.getId());
             annonces.remove(selectedAnnonce);
             savedListingsListView.setItems(annonces);
         }
