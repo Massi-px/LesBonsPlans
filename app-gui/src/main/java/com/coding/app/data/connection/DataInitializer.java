@@ -11,7 +11,7 @@ public class DataInitializer {
             id INT AUTO_INCREMENT PRIMARY KEY,
             title TEXT,
             path VARCHAR(2048),
-            image VARCHAR(2048),
+            image BLOB,
             site TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
@@ -21,7 +21,7 @@ public class DataInitializer {
         CREATE TABLE IF NOT EXISTS recherches (
             id INT AUTO_INCREMENT PRIMARY KEY,
             keywords TEXT,
-            sites JSON,
+            sites TEXT,
             frequency INT
         );
     """;
@@ -29,13 +29,8 @@ public class DataInitializer {
     public static void initializeDatabase(Connection connection) {
         try (
                 Statement statement = connection.createStatement()) {
-
             statement.execute(CREATE_TABLE_ANNONCES);
-            System.out.println("Table 'annonces' créée ou existe déjà.");
-
             statement.execute(CREATE_TABLE_RECHERCHES);
-            System.out.println("Table 'recherches' créée ou existe déjà.");
-
         } catch (SQLException e) {
             System.out.println("Erreur lors de l'initialisation de la base de données : " + e.getMessage());
         }
