@@ -18,13 +18,31 @@
     -fx-background-radius: 5px;
 }
 
-.button {
+.button-primary {
     -fx-background-color: #007bff;
     -fx-text-fill: white;
 }
 
-.button:hover {
+.button-primary:hover {
     -fx-background-color: #0056b3;
+}
+
+.button-secondary {
+    -fx-background-color: #da1212;
+    -fx-text-fill: white;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #b30000;
+}
+
+.button-save {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+}
+
+.button-save:hover {
+    -fx-background-color: #218838;
 }
 
 .list-view {

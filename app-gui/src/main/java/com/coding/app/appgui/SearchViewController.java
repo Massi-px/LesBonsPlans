@@ -9,11 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import org.controlsfx.control.CheckComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 
 import java.util.List;
 
@@ -26,14 +26,22 @@ public class SearchViewController {
     private TextField refreshFrequencyField;
     @FXML
     private ListView<Annonce> listingsListView;
+    @FXML
+    private Button startSearchButton;
+    @FXML
+    private Button stopSearchButton;
+    @FXML
+    private Region spacer;
 
     private final Dispatcher dispatcher = new Dispatcher();
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
+    private final AnnonceDao annonceDao = new AnnonceDao();
 
 
     @FXML
     public void initialize() {
+        HBox.setHgrow(spacer, Priority.ALWAYS);
         siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
         listingsListView.setItems( observabled );
 
@@ -50,6 +58,27 @@ public class SearchViewController {
     }
 
     @FXML
+    private void increaseRefreshFrequency() {
+        int currentValue = getRefreshFrequency();
+        refreshFrequencyField.setText(String.valueOf(currentValue + 1));
+    }
+
+    @FXML
+    private void decreaseRefreshFrequency() {
+        int currentValue = getRefreshFrequency();
+        if (currentValue > 0) {
+            refreshFrequencyField.setText(String.valueOf(currentValue - 1));
+        }
+    }
+
+    @FXML
+    protected void onStopSearchClick() {
+        startSearchButton.setDisable(false);
+        stopSearchButton.setDisable(true);
+        // Add logic to stop the search if needed
+    }
+
+    @FXML
     protected void onStartSearchClick() {
         String keywords = keywordsField.getText();
         var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
@@ -58,22 +87,33 @@ public class SearchViewController {
 
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
-                // Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
                 fillListings(keywords, SiteEnum.LES_BONS_PLANS);
             }
             if ("Le Bon Coin".equals(site)) {
-                //Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LE_BON_COIN));
                 fillListings(keywords, SiteEnum.LE_BON_COIN);
             }
         }
     }
-    private final AnnonceDao annonceDao = new AnnonceDao();
+
+    @FXML
+    protected void onClearSearchClick() {
+        observabled.clear();
+    }
 
     @FXML
     private void onSaveSelectedClick() {
         List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
         for (Annonce annonce : selectedAnnonces) {
             annonceDao.saveAnnonce( annonce );
+        }
+    }
+
+
+    private int getRefreshFrequency() {
+        try {
+            return Integer.parseInt(refreshFrequencyField.getText());
+        } catch (NumberFormatException e) {
+            return 0;
         }
     }
 
