@@ -1,7 +1,9 @@
 package com.coding.app.appgui;
 
 import com.coding.app.data.dao.AnnonceDAO;
+import com.coding.app.data.dao.RechercheDAO;
 import com.coding.app.data.model.Annonce;
+import com.coding.app.data.model.Recherche;
 import com.coding.app.dispacher.Dispatcher;
 import com.coding.app.utils.SiteEnum;
 import javafx.application.Platform;
@@ -26,9 +28,11 @@ public class SearchViewController {
     @FXML
     public TextField searchListingsField;
     @FXML
+    public ComboBox<String> siteHistoryCheck;
+    @FXML
     private TextField keywordsField;
     @FXML
-    private CheckComboBox<String> siteCheckComboBox;
+    private CheckComboBox<String> siteComboBox;
     @FXML
     private TextField refreshFrequencyField;
     @FXML
@@ -40,30 +44,29 @@ public class SearchViewController {
     @FXML
     private Region spacer;
 
+
     private final Dispatcher dispatcher = new Dispatcher();
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
     private final AnnonceDAO annonceDao = new AnnonceDAO();
+    private final RechercheDAO rechercheDao = new RechercheDAO();
     ScheduledExecutorService scheduler;
 
 
     @FXML
     public void initialize() {
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        siteComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
+        listingsListView.setItems( observabled );
         keywordsField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
-        siteCheckComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
+        siteComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
         refreshFrequencyField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
-
+        onSearchHistory();
         // Initial validation
         validateFields();
-
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
-        listingsListView.setItems( observabled );
-
         ContextMenu contextMenu = new ContextMenu();
         MenuItem    menuItem   = new MenuItem("save");
         contextMenu.getItems().addAll(menuItem);
-
         // Set context menu to the ListView
         listingsListView.setContextMenu(contextMenu);
         // Set action event handler for menuItem
@@ -97,7 +100,7 @@ public class SearchViewController {
         startSearchButton.setDisable(true);
         stopSearchButton.setDisable(false);
         String keywords = keywordsField.getText();
-        var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
+        var selectedSite = siteComboBox.getCheckModel().getCheckedItems().stream().toList();
 
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
@@ -126,9 +129,28 @@ public class SearchViewController {
         }
     }
 
+    @FXML
+    private void onSaveSearchClick () {
+        Recherche recherche = new Recherche();
+        recherche.setKeywords(keywordsField.getText());
+        recherche.setSites(siteComboBox.getCheckModel().getCheckedItems().toString());
+        recherche.setFrequency(Integer.parseInt(refreshFrequencyField.getText()));
+        rechercheDao.addRecherche(recherche);
+        if (!siteHistoryCheck.getItems().contains("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency())) {
+            siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
+        }
+    }
+
+    private void onSearchHistory() {
+        List<Recherche> recherches = rechercheDao.getAllRecherches();
+        for (Recherche recherche : recherches) {
+            siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
+        }
+    }
+
     private void validateFields() {
         boolean isKeywordsFieldEmpty = keywordsField.getText().trim().isEmpty();
-        boolean isSiteCheckComboBoxEmpty = siteCheckComboBox.getCheckModel().getCheckedItems().isEmpty();
+        boolean isSiteCheckComboBoxEmpty = siteComboBox.getCheckModel().getCheckedItems().isEmpty();
         boolean isRefreshFrequencyFieldEmpty = refreshFrequencyField.getText().trim().isEmpty();
 
         // Disable the start button if any required field is empty

@@ -16,20 +16,21 @@ public class RechercheDAO {
 
     private static final String SQL_SELECT_ALL = "SELECT * FROM recherches";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM recherches WHERE id = ?";
+    private static final String SQL_SELECT_BY_KEYWORDS_AND_SITES = "SELECT * FROM recherches WHERE keywords = ? AND sites = ?";
     private static final String SQL_INSERT = "INSERT INTO recherches (keywords, sites, frequency) VALUES (?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE recherches SET keywords =?, sites =?, frequency =? WHERE id =?";
 
 
-    public RechercheDAO(AppDataSource dbSource) {
-        this.dbSource = dbSource;
+    public RechercheDAO() {
+        this.dbSource = new AppDataSource();
     }
 
     public List<Recherche> getAllRecherches() {
         List<Recherche> recherches = new ArrayList<>();
         try {
-            Connection        connection = dbSource.getConnection();
+            Connection connection = dbSource.getConnection();
             PreparedStatement statement  = connection.prepareStatement(SQL_SELECT_ALL);
-            ResultSet         resultSet  = statement.executeQuery();
+            ResultSet resultSet  = statement.executeQuery();
 
             while (resultSet.next()) {
                 Recherche recherche = mapResultSetToRecherche(resultSet);
@@ -60,16 +61,20 @@ public class RechercheDAO {
     }
 
     public void addRecherche(Recherche recherche) {
-        try {
-            Connection connection = dbSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
-            statement.setString(1, recherche.getKeywords());
-            statement.setString(2, recherche.getSites());
-            statement.setInt(3, recherche.getFrequency());
-            statement.executeUpdate();
-            connection.close();
-        } catch (SQLException e) {
-            System.out.println("An error occurred while executing the sql query. " + e);
+        if(!isExistingRecherche(recherche)) {
+            try {
+                Connection connection = dbSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+                statement.setString(1, recherche.getKeywords());
+                statement.setString(2, recherche.getSites());
+                statement.setInt(3, recherche.getFrequency());
+                statement.executeUpdate();
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("An error occurred while executing the sql query. " + e);
+            }
+        } else {
+            updateRecherche(recherche);
         }
     }
 
@@ -88,6 +93,21 @@ public class RechercheDAO {
         }
     }
 
+    private boolean isExistingRecherche(Recherche recherche) {
+        try {
+            Connection connection = dbSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_KEYWORDS_AND_SITES);
+            statement.setString(1, recherche.getKeywords());
+            statement.setString(2, recherche.getSites());
+            ResultSet rs = statement.executeQuery();
+            boolean exists = rs.next();
+            connection.close();
+            return exists;
+        } catch (SQLException e) {
+            System.out.println("An error occurred while executing the sql query. " + e);
+        }
+        return false;
+    }
 
     private Recherche mapResultSetToRecherche(ResultSet resultSet) {
         Recherche recherche = new Recherche();

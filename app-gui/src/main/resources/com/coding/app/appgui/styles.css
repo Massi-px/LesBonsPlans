@@ -45,6 +45,15 @@
     -fx-background-color: #218838;
 }
 
+.button-save-search {
+    -fx-background-color: #17a2b8;
+    -fx-text-fill: white;
+}
+
+.button-save-search:hover {
+    -fx-background-color: #138496;
+}
+
 .list-view {
     -fx-border-color: #ccc;
     -fx-border-radius: 5px;
