@@ -27,12 +27,11 @@ public class DataInitializer {
     """;
 
     public static void initializeDatabase(Connection connection) {
-        try (
-                Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             statement.execute(CREATE_TABLE_ANNONCES);
             statement.execute(CREATE_TABLE_RECHERCHES);
         } catch (SQLException e) {
-            System.out.println("Erreur lors de l'initialisation de la base de données : " + e.getMessage());
+            System.out.println("Error initializing database : " + e.getMessage());
         }
     }
 }

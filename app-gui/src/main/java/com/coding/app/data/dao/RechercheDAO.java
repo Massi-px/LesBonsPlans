@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RechercheDao {
+public class RechercheDAO {
 
     private final AppDataSource dbSource;
 
@@ -20,7 +20,7 @@ public class RechercheDao {
     private static final String SQL_UPDATE = "UPDATE recherches SET keywords =?, sites =?, frequency =? WHERE id =?";
 
 
-    public RechercheDao(AppDataSource dbSource) {
+    public RechercheDAO(AppDataSource dbSource) {
         this.dbSource = dbSource;
     }
 
@@ -37,7 +37,7 @@ public class RechercheDao {
             }
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
         return recherches;
     }
@@ -54,7 +54,7 @@ public class RechercheDao {
             }
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
         return recherche;
     }
@@ -69,7 +69,7 @@ public class RechercheDao {
             statement.executeUpdate();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
     }
 
@@ -84,7 +84,7 @@ public class RechercheDao {
             statement.executeUpdate();
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
     }
 
@@ -97,7 +97,7 @@ public class RechercheDao {
             recherche.setSites(resultSet.getString("sites"));
             recherche.setFrequency(resultSet.getInt("frequency"));
         } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la lecture des données de la base de données. " + e);
+            System.out.println("An error occurred while executing the sql query. " + e);
         }
         return recherche;
     }

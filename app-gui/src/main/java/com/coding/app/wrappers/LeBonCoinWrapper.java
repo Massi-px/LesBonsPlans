@@ -34,15 +34,15 @@ public class LeBonCoinWrapper extends SiteWrapper {
 
     private <T> void fillObservableList(String response, ObservableList<T> obs) {
         Document doc        = Jsoup.parse(response);
-        Elements         adListCard = doc.select("div.mb-lg");
-        Elements         adCards    = adListCard.select("div.styles_adCard__JzKik");
+        Elements adListCard = doc.select("div.mb-lg");
+        Elements adCards    = adListCard.select("div.styles_adCard__JzKik");
 
         for (Element adCard : adCards) {
-            String title = adCard.select("p[data-qa-id=aditem_title]").text();
-            String date = adCard.select("p[aria-label^=Date]").text();
+            String title       = adCard.select("p[data-qa-id=aditem_title]").text();
+            String date        = adCard.select("p[aria-label^=Date]").text();
             String lienannonce = adCard.select("a[data-qa-id=aditem_container]").attr("href");
-            String location = adCard.select("p[aria-label^=Située]").text();
-            String imageUrl = adCard.select("img").attr("src");
+            String location    = adCard.select("p[aria-label^=Située]").text();
+            String imageUrl    = adCard.select("img").attr("src");
 
             Annonce annonce = new Annonce(
                     title,

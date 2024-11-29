@@ -1,6 +1,6 @@
 package com.coding.app.appgui;
 
-import com.coding.app.data.dao.AnnonceDao;
+import com.coding.app.data.dao.AnnonceDAO;
 import com.coding.app.data.model.Annonce;
 import com.coding.app.dispacher.Dispatcher;
 import com.coding.app.utils.SiteEnum;
@@ -43,7 +43,7 @@ public class SearchViewController {
     private final Dispatcher dispatcher = new Dispatcher();
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
-    private final AnnonceDao annonceDao = new AnnonceDao();
+    private final AnnonceDAO annonceDao = new AnnonceDAO();
     ScheduledExecutorService scheduler;
 
 
@@ -122,7 +122,7 @@ public class SearchViewController {
     private void onSaveSelectedClick() {
         List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
         for (Annonce annonce : selectedAnnonces) {
-            annonceDao.saveAnnonce( annonce );
+            annonceDao.save( annonce );
         }
     }
 
