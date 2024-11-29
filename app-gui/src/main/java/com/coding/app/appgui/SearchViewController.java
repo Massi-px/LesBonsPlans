@@ -10,17 +10,21 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class SearchViewController {
+    @FXML
+    public TextField searchListingsField;
     @FXML
     private TextField keywordsField;
     @FXML
@@ -151,4 +155,14 @@ public class SearchViewController {
     }
 
 
+    public void onKeyPressedfilter(KeyEvent keyEvent) {
+        String key = searchListingsField.getCharacters().toString();
+        ObservableList<Annonce> filteredList = FXCollections.observableArrayList();
+        for (Annonce annonce : observabled) {
+            if (annonce.getTitle().toLowerCase( Locale.ROOT ).contains(key.toLowerCase( Locale.ROOT ))) {
+                filteredList.add(annonce);
+            }
+        }
+        listingsListView.setItems(filteredList);
+    }
 }
