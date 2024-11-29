@@ -81,7 +81,8 @@ public class SearchViewController {
 
     @FXML
     protected void onStartSearchClick() {
-
+        startSearchButton.setDisable(true);
+        stopSearchButton.setDisable(false);
         String keywords = keywordsField.getText();
         var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
 

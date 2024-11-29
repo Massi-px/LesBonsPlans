@@ -49,6 +49,11 @@ public class ManageListingsViewController {
     }
 
     @FXML
+    private void onRefreshClick() {
+        loadAnnonces();
+    }
+
+    @FXML
     private void onFilterChange() {
         String selectedSite = siteFilterComboBox.getValue();
         if (selectedSite == null || selectedSite.isEmpty()) {
