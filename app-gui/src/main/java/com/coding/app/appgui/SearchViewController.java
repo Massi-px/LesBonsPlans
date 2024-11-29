@@ -10,6 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -21,6 +22,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class SearchViewController {
+    @FXML
+    public TextField searchListingsField;
     @FXML
     private TextField keywordsField;
     @FXML
@@ -148,5 +151,11 @@ public class SearchViewController {
         onSaveSelectedClick();
     }
 
+    StringBuilder sb = new StringBuilder();
+    public void onKeyPressedfilter(KeyEvent keyEvent) {
 
+        var key = keyEvent.getText();
+        sb.append(key);
+        System.out.println(sb);
+    }
 }
