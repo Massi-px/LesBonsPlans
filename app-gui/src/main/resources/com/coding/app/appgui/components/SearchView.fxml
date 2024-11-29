@@ -31,7 +31,13 @@
             <padding>
                 <Insets top="20.0"/>
             </padding>
-            <Button text="Start Search" onAction="#onStartSearchClick"/>
+            <Button text="Start Search" onAction="#onStartSearchClick" styleClass="button-primary"/>
+        </VBox>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets top="20.0"/>
+            </padding>
+            <Button text="Clear Search" onAction="#onClearSearchClick" styleClass="button-secondary"/>
         </VBox>
     </HBox>
     <ListView fx:id="listingsListView" styleClass="custom-list-view">
@@ -39,5 +45,5 @@
             <FXCollections fx:factory="observableArrayList"/>
         </items>
     </ListView>
-    <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick"/>
+    <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick" styleClass="button-save"/>
 </VBox>

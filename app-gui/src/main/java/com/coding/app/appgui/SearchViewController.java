@@ -58,15 +58,18 @@ public class SearchViewController {
 
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
-                // Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
                 fillListings(keywords, SiteEnum.LES_BONS_PLANS);
             }
             if ("Le Bon Coin".equals(site)) {
-                //Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LE_BON_COIN));
                 fillListings(keywords, SiteEnum.LE_BON_COIN);
             }
         }
     }
+    @FXML
+    protected void onClearSearchClick() {
+        observabled.clear();
+    }
+
     private final AnnonceDao annonceDao = new AnnonceDao();
 
     @FXML

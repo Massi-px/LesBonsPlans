@@ -17,5 +17,5 @@
             <FXCollections fx:factory="observableArrayList"/>
         </items>
     </ListView>
-    <Button text="Delete Selected" onAction="#onDeleteSelectedClick"/>
+    <Button text="Delete Selected" onAction="#onDeleteSelectedClick" styleClass="button-secondary"/>
 </VBox>
