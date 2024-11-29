@@ -13,13 +13,10 @@ import java.util.logging.Logger;
 
 public class AppDataSource implements DataSource {
 
-
-    private static final String DATABASE_PROPERTIES_FILE_PATH = "config/app_db.properties";
-
+    private static final String DATABASE_PROPERTIES_FILE_PATH = "db.properties";
     private static String url;
     private static String username;
     private static String password;
-    private static String driver;
 
     static {
         Properties props = new Properties();
@@ -32,7 +29,7 @@ public class AppDataSource implements DataSource {
             url = props.getProperty("url");
             username = props.getProperty("username");
             password = props.getProperty("password");
-            driver = props.getProperty("driver");
+            String driver = props.getProperty("driver");
 
             try {
                 Class.forName(driver);
@@ -43,11 +40,9 @@ public class AppDataSource implements DataSource {
 
         } catch (IOException e) {
             System.out.println("Une erreur s'est produite lors de la lecture" +
-                    " du fichier properties de la base de données, e");
+                    " du fichier propertie de la base de données, e");
         }
     }
-
-
 
 
     @Override

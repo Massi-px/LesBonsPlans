@@ -1,5 +1,7 @@
 package com.coding.app.appgui;
 
+import com.coding.app.data.dao.AnnonceDao;
+import com.coding.app.data.model.Annonce;
 import com.coding.app.dispacher.Dispatcher;
 import com.coding.app.utils.SiteEnum;
 import javafx.collections.FXCollections;
@@ -11,6 +13,7 @@ import org.controlsfx.control.CheckComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import java.util.List;
 
 public class SearchViewController {
     @FXML
@@ -20,6 +23,7 @@ public class SearchViewController {
     @FXML
     private TextField refreshFrequencyField;
     @FXML
+    private ListView<Annonce> listingsListView;
     private ListView<String> listingsListView;
 
     ObservableList<String> observabled = FXCollections.observableArrayList();
@@ -44,12 +48,27 @@ public class SearchViewController {
 
     @FXML
     protected void onStartSearchClick() {
-
         String keywords = keywordsField.getText();
         var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
 
         String refreshFrequency = refreshFrequencyField.getText();
 
+        if ("LesBonsPlans".equals(selectedSite)) {
+            fetchLesBonsPlansListings(keywords);
+        }
+        if ("LeBonCoin".equals(selectedSite)) {
+            fetchLeBonCoinListings(keywords);
+        }
+    }
+    private final AnnonceDao annonceDao = new AnnonceDao();
+
+    @FXML
+    private void onSaveSelectedClick() {
+        List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
+        for (Annonce annonce : selectedAnnonces) {
+            annonceDao.saveAnnonce(annonce);
+        }
+    }
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
                 // Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));

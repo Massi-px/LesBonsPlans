@@ -25,23 +25,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `annonce`
+-- Structure de la table `annonces`
 --
-
-CREATE DATABASE IF NOT EXISTS `app_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 
 DROP TABLE IF EXISTS `annonces`;
 
 CREATE TABLE `annonces` (
-                         `id` int(11) NOT NULL,
-                         `title` varchar(250) NOT NULL,
-                         `path` varchar(250) NOT NULL,
-                         `image` varchar(250) NOT NULL,
-                         `site` varchar(250) NOT NULL,
-                         `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+                            `id` int(11) NOT NULL,
+                            `title` varchar(250) NOT NULL,
+                            `site` varchar(250) NOT NULL,
+                            `link` varchar(250) NOT NULL,
+                            `created_at` TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 
 -- --------------------------------------------------------
 
@@ -65,7 +60,7 @@ CREATE TABLE `recherche` (
 --
 
 --
--- Index pour la table `annonce`
+-- Index pour la table `annonces`
 --
 ALTER TABLE `annonces`
     ADD PRIMARY KEY (`id`);
@@ -81,7 +76,7 @@ ALTER TABLE `recherche`
 --
 
 --
--- AUTO_INCREMENT pour la table `annonce`
+-- AUTO_INCREMENT pour la table `annonces`
 --
 ALTER TABLE `annonces`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;

@@ -60,9 +60,7 @@ public class SBPWrapper extends SiteWrapper {
         for (Map<String, String> res : results) {
             Annonce a = new Annonce();
             a.setTitle( res.get( "title" ) );
-            a.setPath( res.get( "path" ) );
-            a.setImage( res.get( "image" ) );
-            a.setSite( res.get( "link" ) );
+            a.setLink( res.get( "link" ) );
             a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
             list.add( a );
         }
