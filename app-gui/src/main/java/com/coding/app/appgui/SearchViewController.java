@@ -40,7 +40,7 @@ public class SearchViewController {
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
     private final AnnonceDao annonceDao = new AnnonceDao();
-    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    ScheduledExecutorService scheduler;
 
 
     @FXML
@@ -85,10 +85,12 @@ public class SearchViewController {
         startSearchButton.setDisable(false);
         stopSearchButton.setDisable(true);
         scheduler.shutdownNow();
+
     }
 
     @FXML
     protected void onStartSearchClick() {
+        scheduler = Executors.newScheduledThreadPool(1);
         startSearchButton.setDisable(true);
         stopSearchButton.setDisable(false);
         String keywords = keywordsField.getText();
