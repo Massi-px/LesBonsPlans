@@ -17,6 +17,7 @@ import javafx.scene.layout.Region;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -151,11 +152,15 @@ public class SearchViewController {
         onSaveSelectedClick();
     }
 
-    StringBuilder sb = new StringBuilder();
-    public void onKeyPressedfilter(KeyEvent keyEvent) {
 
-        var key = keyEvent.getText();
-        sb.append(key);
-        System.out.println(sb);
+    public void onKeyPressedfilter(KeyEvent keyEvent) {
+        String key = searchListingsField.getCharacters().toString();
+        ObservableList<Annonce> filteredList = FXCollections.observableArrayList();
+        for (Annonce annonce : observabled) {
+            if (annonce.getTitle().toLowerCase( Locale.ROOT ).contains(key.toLowerCase( Locale.ROOT ))) {
+                filteredList.add(annonce);
+            }
+        }
+        listingsListView.setItems(filteredList);
     }
 }

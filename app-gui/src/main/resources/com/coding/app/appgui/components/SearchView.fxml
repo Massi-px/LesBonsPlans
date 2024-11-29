@@ -59,6 +59,6 @@
     <HBox spacing="10.0" alignment="CENTER_LEFT">
         <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick" styleClass="button-save"/>
         <Region fx:id="spacer" />
-        <TextField fx:id="searchListingsField" onKeyPressed="#onKeyPressedfilter" promptText="Search listings" maxWidth="200"/>
+        <TextField fx:id="searchListingsField" onKeyTyped="#onKeyPressedfilter" promptText="Search listings" maxWidth="200"/>
     </HBox>
 </VBox>
