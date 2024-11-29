@@ -20,16 +20,16 @@ public class RechercheDao {
     private static final String SQL_UPDATE = "UPDATE recherches SET keywords =?, sites =?, frequency =? WHERE id =?";
 
 
-    public RechercheDao(AppDataSource dbSource) {
-        this.dbSource = dbSource;
+    public RechercheDao() {
+        this.dbSource = new AppDataSource();
     }
 
     public List<Recherche> getAllRecherches() {
         List<Recherche> recherches = new ArrayList<>();
         try {
-            Connection        connection = dbSource.getConnection();
+            Connection connection = dbSource.getConnection();
             PreparedStatement statement  = connection.prepareStatement(SQL_SELECT_ALL);
-            ResultSet         resultSet  = statement.executeQuery();
+            ResultSet resultSet  = statement.executeQuery();
 
             while (resultSet.next()) {
                 Recherche recherche = mapResultSetToRecherche(resultSet);
