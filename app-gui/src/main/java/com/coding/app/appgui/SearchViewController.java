@@ -6,6 +6,7 @@ import com.coding.app.dispacher.Dispatcher;
 import com.coding.app.utils.SiteEnum;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -44,12 +45,17 @@ public class SearchViewController {
 
     @FXML
     public void initialize() {
+        keywordsField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
+        siteCheckComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
+        refreshFrequencyField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
+
+        // Initial validation
+        validateFields();
 
         HBox.setHgrow(spacer, Priority.ALWAYS);
         siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
         listingsListView.setItems( observabled );
 
-        // Create context menu
         ContextMenu contextMenu = new ContextMenu();
         MenuItem    menuItem   = new MenuItem("save");
         contextMenu.getItems().addAll(menuItem);
@@ -115,6 +121,14 @@ public class SearchViewController {
         }
     }
 
+    private void validateFields() {
+        boolean isKeywordsFieldEmpty = keywordsField.getText().trim().isEmpty();
+        boolean isSiteCheckComboBoxEmpty = siteCheckComboBox.getCheckModel().getCheckedItems().isEmpty();
+        boolean isRefreshFrequencyFieldEmpty = refreshFrequencyField.getText().trim().isEmpty();
+
+        // Disable the start button if any required field is empty
+        startSearchButton.setDisable(isKeywordsFieldEmpty || isSiteCheckComboBoxEmpty || isRefreshFrequencyFieldEmpty);
+    }
 
     private int getRefreshFrequency() {
         try {

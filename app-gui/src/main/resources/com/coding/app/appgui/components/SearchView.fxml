@@ -22,13 +22,13 @@
         </VBox>
         <VBox spacing="10.0">
             <Label text="Select Site:"/>
-            <CheckComboBox fx:id="siteCheckComboBox" prefWidth="200" accessibleText="Select your site..." title="Select your site..."/>
+            <CheckComboBox fx:id="siteCheckComboBox" prefWidth="200" accessibleText="Select your site..." />
         </VBox>
         <VBox spacing="10.0">
-            <Label text="Refresh Frequency (minutes):"/>
+            <Label text="Refresh Frequency (seconds):"/>
             <HBox spacing="5.0">
                 <Button text="-" onAction="#decreaseRefreshFrequency"/>
-                <TextField fx:id="refreshFrequencyField" promptText="Enter frequency" maxWidth="50" editable="false"/>
+                <TextField fx:id="refreshFrequencyField" promptText="Enter frequency" maxWidth="50" editable="false" text="1" />
                 <Button text="+" onAction="#increaseRefreshFrequency"/>
             </HBox>
         </VBox>
