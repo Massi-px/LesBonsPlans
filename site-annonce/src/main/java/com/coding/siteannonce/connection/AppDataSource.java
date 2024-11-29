@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class AppDataSource implements DataSource {
 
 
-    private static final String DATABASE_PROPERTIES_FILE_PATH = "config/app_db.properties";
+    private static final String DATABASE_PROPERTIES_FILE_PATH = "app_db.properties";
 
     private static String url;
     private static String username;

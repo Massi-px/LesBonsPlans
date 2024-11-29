@@ -23,7 +23,6 @@ public class SearchViewController {
     @FXML
     private ListView<Annonce> listingsListView;
 
-
     @FXML
     public void initialize() {
         siteCheckComboBox.getItems().addAll("LesBonsPlans", "LeBonCoin");

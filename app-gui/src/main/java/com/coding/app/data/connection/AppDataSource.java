@@ -13,21 +13,37 @@ import java.util.logging.Logger;
 
 public class AppDataSource implements DataSource {
 
-    private static final String DATABASE_PROPERTIES_FILE_PATH = "/config/db.properties";
-
-    private static final String url = "jdbc:mariadb://localhost:3307/LesBonsPlansApp?serverTimezone=UTC&verifyServerCertificate=false&useSSL=true";
-    private static final String username = "LBP";
-    private static final String password = "root";
-    private static final String driver = "org.mariadb.jdbc.Driver";
+    private static final String DATABASE_PROPERTIES_FILE_PATH = "db.properties";
+    private static String url;
+    private static String username;
+    private static String password;
 
     static {
+        Properties props = new Properties();
+        InputStream inputStream = Thread.currentThread()
+                .getContextClassLoader()
+                .getResourceAsStream(DATABASE_PROPERTIES_FILE_PATH);
+
         try {
-            Class.forName(driver);
-            System.out.println("Connexion OK !");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Le driver est introuvable: " + e);
+            props.load(inputStream);
+            url = props.getProperty("url");
+            username = props.getProperty("username");
+            password = props.getProperty("password");
+            String driver = props.getProperty("driver");
+
+            try {
+                Class.forName(driver);
+                System.out.println("Connexion OK !");
+            } catch (ClassNotFoundException e) {
+                System.out.println("le drive est introuvable " + e);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Une erreur s'est produite lors de la lecture" +
+                    " du fichier propertie de la base de données, e");
         }
     }
+
 
     @Override
     public Connection getConnection() throws SQLException {
