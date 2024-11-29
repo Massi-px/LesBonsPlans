@@ -5,6 +5,8 @@ import com.coding.app.utils.SiteEnum;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import org.controlsfx.control.CheckComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -27,6 +29,17 @@ public class SearchViewController {
     public void initialize() {
         siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
         listingsListView.setItems( observabled );
+
+        // Create context menu
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem    menuItem   = new MenuItem("save");
+        //MenuItem    menuItem2   = new MenuItem("Option 2");
+        contextMenu.getItems().addAll(menuItem/*, menuItem2*/);
+
+        // Set context menu to the ListView
+        listingsListView.setContextMenu(contextMenu);
+        // Set action event handler for menuItem1
+        menuItem.setOnAction(event -> handleSaveAction());
     }
 
     @FXML
@@ -39,13 +52,12 @@ public class SearchViewController {
 
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
-                Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
-//                Thread thread = new Thread(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
-//                fillListings(keywords, SiteEnum.LES_BONS_PLANS);
+                // Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
+                fillListings(keywords, SiteEnum.LES_BONS_PLANS);
             }
             if ("Le Bon Coin".equals(site)) {
-                Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LE_BON_COIN));
-                //fillListings(keywords, SiteEnum.LE_BON_COIN);
+                //Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LE_BON_COIN));
+                fillListings(keywords, SiteEnum.LE_BON_COIN);
             }
         }
 
@@ -54,7 +66,23 @@ public class SearchViewController {
     private final Dispatcher dispatcher = new Dispatcher();
 
     private void fillListings(String keywords, SiteEnum siteEnum) {
-        dispatcher.dispatch( siteEnum, keywords, observabled );
+
+        Thread.ofVirtual().start(() -> {
+            dispatcher.dispatch( siteEnum, keywords, observabled );
+            Thread.currentThread().interrupt();
+        });
+
     }
+
+    // Action event handler for menuItem saved state
+    private void handleSaveAction() {
+        String selectedItem = listingsListView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            System.out.println("Save action triggered for item: " + selectedItem);
+        } else {
+            System.out.println("No item selected");
+        }
+    }
+
 
 }

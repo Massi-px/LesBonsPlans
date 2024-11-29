@@ -32,3 +32,7 @@
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }
+
+.custom-list-view {
+    -fx-pref-height: 800px; /* Set the desired height */
+}
