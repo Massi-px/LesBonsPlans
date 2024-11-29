@@ -10,6 +10,7 @@
 <?import org.controlsfx.control.CheckComboBox?>
 <?import javafx.collections.FXCollections?>
 
+<?import javafx.scene.layout.Region?>
 <VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.SearchViewController">
     <padding>
         <Insets top="20.0"/>
@@ -25,19 +26,29 @@
         </VBox>
         <VBox spacing="10.0">
             <Label text="Refresh Frequency (minutes):"/>
-            <TextField fx:id="refreshFrequencyField" promptText="Enter frequency"/>
+            <HBox spacing="5.0">
+                <Button text="-" onAction="#decreaseRefreshFrequency"/>
+                <TextField fx:id="refreshFrequencyField" promptText="Enter frequency" maxWidth="50" editable="false"/>
+                <Button text="+" onAction="#increaseRefreshFrequency"/>
+            </HBox>
         </VBox>
         <VBox spacing="10.0">
             <padding>
                 <Insets top="20.0"/>
             </padding>
-            <Button text="Start Search" onAction="#onStartSearchClick" styleClass="button-primary"/>
+            <Button fx:id="startSearchButton" text="Start Search" onAction="#onStartSearchClick" styleClass="button-primary"/>
         </VBox>
         <VBox spacing="10.0">
             <padding>
                 <Insets top="20.0"/>
             </padding>
-            <Button text="Clear Search" onAction="#onClearSearchClick" styleClass="button-secondary"/>
+            <Button fx:id="stopSearchButton" text="Stop Search" onAction="#onStopSearchClick" styleClass="button-secondary" disable="true"/>
+        </VBox>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets top="20.0"/>
+            </padding>
+            <Button text="Clear Search" onAction="#onClearSearchClick" />
         </VBox>
     </HBox>
     <ListView fx:id="listingsListView" styleClass="custom-list-view">
@@ -45,5 +56,9 @@
             <FXCollections fx:factory="observableArrayList"/>
         </items>
     </ListView>
-    <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick" styleClass="button-save"/>
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+        <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick" styleClass="button-save"/>
+        <Region fx:id="spacer" />
+        <TextField fx:id="searchListingsField" promptText="Search listings" maxWidth="200"/>
+    </HBox>
 </VBox>
