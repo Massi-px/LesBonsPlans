@@ -11,13 +11,17 @@
 <?import javafx.collections.FXCollections?>
 
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.ComboBox?>
 <VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.SearchViewController">
     <padding>
         <Insets top="20.0"/>
     </padding>
     <HBox spacing="20.0" alignment="TOP_RIGHT">
-        <Label text="Select Site:"/>
-        <CheckComboBox fx:id="siteHistoryCheck" prefWidth="200" accessibleText="Select your site..." />
+        <Label text="Select Save Search:"/>
+        <ComboBox fx:id="siteHistoryCheck" prefWidth="200" accessibleText="Select your save search..." />
+        <VBox spacing="10.0">
+            <Button text="Save Search" onAction="#onSaveSearchClick" styleClass="button-save-search"/>
+        </VBox>
     </HBox>
     <HBox spacing="20.0" alignment="CENTER_LEFT">
         <VBox spacing="10.0">
@@ -52,9 +56,7 @@
             <padding>
                 <Insets top="20.0"/>
             </padding>
-            <Button text="Clear Search" onAction="#onClearSearchClick" />
         </VBox>
-        <Button text="Save Search" onAction="#onSaveSearchClick" styleClass="button-save-search"/>
     </HBox>
     <ListView fx:id="listingsListView" styleClass="custom-list-view">
         <items>
@@ -64,6 +66,7 @@
     <HBox spacing="10.0" alignment="CENTER_LEFT">
         <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick" styleClass="button-save"/>
         <Region fx:id="spacer" />
+        <Button text="Clear Search" onAction="#onClearSearchClick" />
         <TextField fx:id="searchListingsField" promptText="Search listings" maxWidth="200"/>
     </HBox>
 </VBox>
