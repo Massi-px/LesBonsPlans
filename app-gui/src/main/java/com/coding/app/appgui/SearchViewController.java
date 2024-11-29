@@ -162,6 +162,9 @@ public class SearchViewController {
                 filteredList.add(annonce);
             }
         }
-        //listingsListView.setItems(filteredList);
+        listingsListView.setItems(filteredList);
+        if (key.isEmpty()) {
+            listingsListView.setItems(observabled);
+        }
     }
 }
