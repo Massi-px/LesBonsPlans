@@ -3,7 +3,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 
-<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.LesBonsPlans">
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.coding.app.appgui.AppScreenController">
   <Tab text="Search" closable="false">
     <fx:include source="./components/SearchView.fxml"/>
   </Tab>

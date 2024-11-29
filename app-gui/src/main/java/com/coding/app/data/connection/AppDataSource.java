@@ -13,8 +13,7 @@ import java.util.logging.Logger;
 
 public class AppDataSource implements DataSource {
 
-    private static final String DATABASE_PROPERTIES_FILE_PATH = "app_db.properties";
-
+    private static final String DATABASE_PROPERTIES_FILE_PATH = "db.properties";
     private static String url;
     private static String username;
     private static String password;
@@ -36,17 +35,17 @@ public class AppDataSource implements DataSource {
             try {
                 Class.forName(driver);
                 System.out.println("Connexion OK !");
-
-
             } catch (ClassNotFoundException e) {
                 System.out.println("le drive est introuvable " + e);
             }
 
         } catch (IOException e) {
             System.out.println("Une erreur s'est produite lors de la lecture" +
-                    " du fichier properties de la base de données, e");
+                    " du fichier propertie de la base de données, e");
         }
     }
+
+
 
 
     @Override

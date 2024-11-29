@@ -3,6 +3,7 @@ package com.coding.app.data.dao;
 import com.coding.app.data.connection.AppDataSource;
 import com.coding.app.data.model.Annonce;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,45 +13,66 @@ import java.util.List;
 
 public class AnnonceDao {
 
-    private final AppDataSource dbSource;
+    private final DataSource dbSource;
 
     private static final String SQL_SELECT_BY_ID = """
             SELECT * FROM annonces WHERE id =?
+            """;
+    private static final String SQL_SELECT_BY_TITLE_AND_LINK = """
+            SELECT * FROM annonces WHERE title = ? AND link = ?
             """;
     private static final String SQL_SELECT_ALL = """
             SELECT * FROM annonces
             """;
     private static final String SQL_INSERT = """
-            INSERT INTO annonces (title, path, image, site, created_at) VALUES (?, ?, ?, ?, ?)
+            INSERT INTO annonces (title, site, link, created_at) VALUES (?, ?, ?, ?)
             """;
     private static final String SQL_UPDATE = """
-            UPDATE annonces SET title = ?, path = ?, image = ?, site = ?, created_at = ? WHERE id = ?
+            UPDATE annonces SET title = ?, site = ? ,ink = ?, created_at = ? WHERE id = ?
             """;
+    private static final String SQL_DELETE = "DELETE FROM annonces WHERE id = ?";
 
 
     public AnnonceDao() {
         this.dbSource = new AppDataSource();
     }
 
-    public void saveAnnonce() {
+    public void saveAnnonce(Annonce annonce) {
+        if (!isAnnonceExists(annonce)) {
+            try {
+                Connection connection = dbSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+                statement.setString(1, annonce.getTitle());
+                statement.setString(2, "");
+                statement.setString(3, annonce.getLink());
+                statement.setTimestamp(4, annonce.getCreatedAt());
+                statement.executeUpdate();
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+            }
+        }
+    }
+
+    private boolean isAnnonceExists(Annonce annonce) {
         try {
-            Connection        connection = dbSource.getConnection();
-            PreparedStatement statement  = connection.prepareStatement(SQL_INSERT);
-            statement.setString(1, "title");
-            statement.setString(2, "path");
-            statement.setString(3, "image");
-            statement.setString(4, "site");
-            statement.setString(5, "created_at");
-            statement.executeUpdate();
+            Connection connection = dbSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TITLE_AND_LINK);
+            statement.setString(1, annonce.getTitle());
+            statement.setString(2, annonce.getLink());
+            ResultSet rs = statement.executeQuery();
+            boolean exists = rs.next();
             connection.close();
+            return exists;
         } catch (SQLException e) {
             System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
         }
+        return false;
     }
 
     public Annonce getAnnonceById(int id) {
         try {
-            Connection        connection = dbSource.getConnection();
+            Connection connection = dbSource.getConnection();
             PreparedStatement statement  = connection.prepareStatement(SQL_SELECT_BY_ID);
             statement.setInt(1, id);
             ResultSet rs      = statement.executeQuery();
@@ -89,11 +111,22 @@ public class AnnonceDao {
             Connection        connection = dbSource.getConnection();
             PreparedStatement statement  = connection.prepareStatement(SQL_UPDATE);
             statement.setString(1, annonce.getTitle());
-            statement.setString(2, annonce.getPath());
-            statement.setString(3, annonce.getImage());
-            statement.setString(4, annonce.getSite());
-            statement.setTimestamp(5, annonce.getCreatedAt());
-            statement.setInt(6, annonce.getId());
+            statement.setString(2, annonce.getSite());
+            statement.setString(3, annonce.getLink());
+            statement.setTimestamp(4, annonce.getCreatedAt());
+            statement.setInt(5, annonce.getId());
+            statement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
+        }
+    }
+
+    public void deleteAnnonce(int id) {
+        try {
+            Connection connection = dbSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+            statement.setInt(1, id);
             statement.executeUpdate();
             connection.close();
         } catch (SQLException e) {
@@ -102,14 +135,12 @@ public class AnnonceDao {
     }
 
 
-
     private Annonce mapResultSetToAnnonces(ResultSet resultSet) throws SQLException {
         return new Annonce(
                 resultSet.getInt("id"),
                 resultSet.getString("title"),
-                resultSet.getString("path"),
-                resultSet.getString("image"),
                 resultSet.getString("site"),
+                resultSet.getString("link"),
                 resultSet.getTimestamp("created_at")
         );
     }

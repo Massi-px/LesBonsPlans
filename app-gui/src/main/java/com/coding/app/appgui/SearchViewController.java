@@ -1,11 +1,14 @@
 package com.coding.app.appgui;
 
+import com.coding.app.data.dao.AnnonceDao;
 import com.coding.app.data.model.Annonce;
-import com.coding.app.dispacher.Dispacher;
+import com.coding.app.dispacher.Dispatcher;
 import com.coding.app.utils.SiteEnum;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import org.controlsfx.control.CheckComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -20,53 +23,73 @@ public class SearchViewController {
     @FXML
     private TextField refreshFrequencyField;
     @FXML
-    private ListView<String> listingsListView;
+    private ListView<Annonce> listingsListView;
+    //private ListView<String> listingsListView;
+
+    ObservableList<Annonce> observabled = FXCollections.observableArrayList();
 
 
     @FXML
     public void initialize() {
-        siteCheckComboBox.getItems().addAll("LesBonsPlans", "LeBonCoin");
+        siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
+        listingsListView.setItems( observabled );
+
+        // Create context menu
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem    menuItem   = new MenuItem("save");
+        //MenuItem    menuItem2   = new MenuItem("Option 2");
+        contextMenu.getItems().addAll(menuItem/*, menuItem2*/);
+
+        // Set context menu to the ListView
+        listingsListView.setContextMenu(contextMenu);
+        // Set action event handler for menuItem1
+        menuItem.setOnAction(event -> handleSaveAction());
     }
 
     @FXML
     protected void onStartSearchClick() {
         String keywords = keywordsField.getText();
-        String selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().get(0);
+        var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
 
-        if ("LesBonsPlans".equals(selectedSite)) {
-            fetchLesBonsPlansListings(keywords);
+        String refreshFrequency = refreshFrequencyField.getText();
+
+        for (String site : selectedSite) {
+            if ("Les Bons Plans".equals(site)) {
+                // Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
+                fillListings(keywords, SiteEnum.LES_BONS_PLANS);
+            }
+            if ("Le Bon Coin".equals(site)) {
+                //Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LE_BON_COIN));
+                fillListings(keywords, SiteEnum.LE_BON_COIN);
+            }
         }
-        if ("LeBonCoin".equals(selectedSite)) {
-            fetchLeBonCoinListings(keywords);
+    }
+    private final AnnonceDao annonceDao = new AnnonceDao();
+
+    @FXML
+    private void onSaveSelectedClick() {
+        List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
+        for (Annonce annonce : selectedAnnonces) {
+            annonceDao.saveAnnonce( annonce );
         }
     }
 
-    private void displayListings(List<Annonce> annonces) {
-        ObservableList<String> listings = FXCollections.observableArrayList();
-        for (Annonce a : annonces) {
 
-            listings.add("Title: " + a.getTitle() + "\nLink: " + a.getSite() + "\nImage: " + a.getPath() + "\nDate: " + a.getCreatedAt());
-        }
+    private final Dispatcher dispatcher = new Dispatcher();
 
-        listingsListView.setItems(listings);
-    }
+    private void fillListings(String keywords, SiteEnum siteEnum) {
 
-    private final Dispacher dispacher = new Dispacher();
-
-    private void fetchLesBonsPlansListings(String keywords) {
-        var siteWrapper = dispacher.dispach( SiteEnum.LES_BONS_PLANS );
-        siteWrapper.setParams( keywords );
-        var liste = siteWrapper.search();
-
-        displayListings(liste );
+        Thread.ofVirtual().start(() -> {
+            dispatcher.dispatch( siteEnum, keywords, observabled );
+            Thread.currentThread().interrupt();
+        });
 
     }
-    private void fetchLeBonCoinListings(String keywords) {
-        var siteWrapper = dispacher.dispach( SiteEnum.LE_BON_COIN );
-        siteWrapper.setParams( keywords );
-        var liste = siteWrapper.search();
 
-        displayListings(liste );
+    // Action event handler for menuItem saved state
+    private void handleSaveAction() {
 
     }
+
+
 }

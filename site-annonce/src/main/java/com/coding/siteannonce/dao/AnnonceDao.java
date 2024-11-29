@@ -4,7 +4,6 @@ import com.coding.siteannonce.connection.AppDataSource;
 import com.coding.siteannonce.model.Annonce;
 
 import javax.sql.DataSource;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

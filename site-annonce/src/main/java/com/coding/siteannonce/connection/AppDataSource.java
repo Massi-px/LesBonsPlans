@@ -19,7 +19,6 @@ public class AppDataSource implements DataSource {
     private static String url;
     private static String username;
     private static String password;
-    private static String driver;
 
     static {
         Properties props = new Properties();
@@ -32,7 +31,7 @@ public class AppDataSource implements DataSource {
             url = props.getProperty("url");
             username = props.getProperty("username");
             password = props.getProperty("password");
-            driver = props.getProperty("driver");
+            String driver = props.getProperty("driver");
 
             try {
                 Class.forName(driver);

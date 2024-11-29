@@ -1,22 +1,18 @@
 package com.coding.app.wrappers;
 
-import com.coding.app.data.model.Annonce;
-
-import java.util.List;
+import javafx.collections.ObservableList;
 
 public abstract class SiteWrapper {
 
     private String url;
     private String params;
 
-    private List<String> results;
-
     public SiteWrapper(String url, String params) {
         this.url = url;
         this.params = params;
     }
 
-    public abstract List<Annonce> search();
+    public abstract <T> void search(ObservableList<T> obs);
 
     public String getUrl() {
         return url;

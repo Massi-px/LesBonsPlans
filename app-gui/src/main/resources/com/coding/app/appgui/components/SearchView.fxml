@@ -21,7 +21,7 @@
         </VBox>
         <VBox spacing="10.0">
             <Label text="Select Site:"/>
-            <CheckComboBox fx:id="siteCheckComboBox" prefWidth="200" />
+            <CheckComboBox fx:id="siteCheckComboBox" prefWidth="200" accessibleText="Select your site..." title="Select your site..."/>
         </VBox>
         <VBox spacing="10.0">
             <Label text="Refresh Frequency (minutes):"/>
@@ -34,9 +34,10 @@
             <Button text="Start Search" onAction="#onStartSearchClick"/>
         </VBox>
     </HBox>
-    <ListView fx:id="listingsListView">
+    <ListView fx:id="listingsListView" styleClass="custom-list-view">
         <items>
             <FXCollections fx:factory="observableArrayList"/>
         </items>
     </ListView>
+    <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick"/>
 </VBox>
