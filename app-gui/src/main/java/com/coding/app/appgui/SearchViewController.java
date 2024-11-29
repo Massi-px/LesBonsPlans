@@ -24,9 +24,9 @@ public class SearchViewController {
     private TextField refreshFrequencyField;
     @FXML
     private ListView<Annonce> listingsListView;
-    private ListView<String> listingsListView;
+    //private ListView<String> listingsListView;
 
-    ObservableList<String> observabled = FXCollections.observableArrayList();
+    ObservableList<Annonce> observabled = FXCollections.observableArrayList();
 
 
     @FXML
@@ -53,22 +53,6 @@ public class SearchViewController {
 
         String refreshFrequency = refreshFrequencyField.getText();
 
-        if ("LesBonsPlans".equals(selectedSite)) {
-            fetchLesBonsPlansListings(keywords);
-        }
-        if ("LeBonCoin".equals(selectedSite)) {
-            fetchLeBonCoinListings(keywords);
-        }
-    }
-    private final AnnonceDao annonceDao = new AnnonceDao();
-
-    @FXML
-    private void onSaveSelectedClick() {
-        List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
-        for (Annonce annonce : selectedAnnonces) {
-            annonceDao.saveAnnonce(annonce);
-        }
-    }
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
                 // Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
@@ -79,8 +63,17 @@ public class SearchViewController {
                 fillListings(keywords, SiteEnum.LE_BON_COIN);
             }
         }
-
     }
+    private final AnnonceDao annonceDao = new AnnonceDao();
+
+    @FXML
+    private void onSaveSelectedClick() {
+        List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
+        for (Annonce annonce : selectedAnnonces) {
+            annonceDao.saveAnnonce( annonce );
+        }
+    }
+
 
     private final Dispatcher dispatcher = new Dispatcher();
 
@@ -95,12 +88,7 @@ public class SearchViewController {
 
     // Action event handler for menuItem saved state
     private void handleSaveAction() {
-        String selectedItem = listingsListView.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            System.out.println("Save action triggered for item: " + selectedItem);
-        } else {
-            System.out.println("No item selected");
-        }
+
     }
 
 

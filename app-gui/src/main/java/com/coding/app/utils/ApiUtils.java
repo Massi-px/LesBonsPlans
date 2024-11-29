@@ -49,7 +49,7 @@ public class ApiUtils {
     }
 
 
-        private static List<Map<String, String>> bodyToMap(String body, ObservableList<String> obs) {
+        private static List<Map<String, String>> bodyToMap(String body, ObservableList<Annonce> obs) {
 
         try {
             List<Map<String, String>> list = new ArrayList<>();
@@ -58,8 +58,8 @@ public class ApiUtils {
                 Map<String, String> map = (Map<String, String>) o;
                 Annonce a = new Annonce();
                 a.setTitle( map.get( "title" ) );
-                a.setPath( map.get( "path" ) );
-                a.setImage( map.get( "image" ) );
+                a.setLink( map.get( "path" ) );
+                //a.setImage( map.get( "image" ) );
                 a.setSite( map.get( "site" ) );
                 a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
                 displayListings(a, obs);
@@ -72,10 +72,8 @@ public class ApiUtils {
 
     }
 
-    public static void displayListings(Annonce a, ObservableList<String> obs) {
-        obs.addFirst(
-                "Title: " + a.getTitle() + "\nLink: " + a.getSite() + "\nImage: " + a.getPath() + "\nDate: " + a.getCreatedAt()
-        );
+    public static void displayListings(Annonce a, ObservableList<Annonce> obs) {
+      obs.add(a );
     }
 
 

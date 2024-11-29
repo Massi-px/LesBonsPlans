@@ -45,12 +45,12 @@ public class LeBonCoinWrapper extends SiteWrapper {
             Annonce annonce = new Annonce(
                     title,
                     imageUrl,
-                    imageUrl,
+                    //imageUrl,
                     "https://www.leboncoin.fr"+ lienannonce,
                     new Timestamp(System.currentTimeMillis())
 
             );
-            displayListings(annonce, (ObservableList<String>) obs );
+            displayListings(annonce, (ObservableList<Annonce>) obs );
         }
     }
 }

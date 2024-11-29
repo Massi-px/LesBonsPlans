@@ -39,12 +39,12 @@ public class SBPWrapper extends SiteWrapper {
                 Map<String, String> map = (Map<String, String>) o;
                 Annonce a = new Annonce();
                 a.setTitle( map.get( "title" ) );
-                a.setPath( map.get( "path" ) );
-                a.setImage( map.get( "image" ) );
+                a.setLink( map.get( "path" ) );
+                //a.setImage( map.get( "image" ) );
                 a.setSite( map.get( "link" ) );
                 a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
 
-                displayListings(a, (ObservableList<String>) obs );
+                displayListings(a, (ObservableList<Annonce>) obs );
             }
 
         } catch (JsonProcessingException e) {

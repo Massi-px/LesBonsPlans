@@ -1,5 +1,6 @@
 package com.coding.app.data.model;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 public class Annonce {
@@ -8,6 +9,7 @@ public class Annonce {
     private String title;
     private String site;
     private String link;
+    //private Blob image;
     private Timestamp createdAt;
 
     public Annonce() {
