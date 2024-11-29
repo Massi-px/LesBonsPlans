@@ -46,7 +46,7 @@ public class LeBonCoinWrapper extends SiteWrapper {
 
             Annonce annonce = new Annonce(
                     title,
-                    imageUrl,
+                    "https://www.leboncoin.fr",
                     "https://www.leboncoin.fr"+ lienannonce,
                     null,
                     new Timestamp(System.currentTimeMillis())
