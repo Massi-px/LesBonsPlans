@@ -13,8 +13,7 @@ import java.util.logging.Logger;
 
 public class AppDataSource implements DataSource {
 
-
-    private static final String DATABASE_PROPERTIES_FILE_PATH = "config/app_db.properties";
+    private static final String DATABASE_PROPERTIES_FILE_PATH = "app_db.properties";
 
     private static String url;
     private static String username;
@@ -37,6 +36,8 @@ public class AppDataSource implements DataSource {
             try {
                 Class.forName(driver);
                 System.out.println("Connexion OK !");
+
+
             } catch (ClassNotFoundException e) {
                 System.out.println("le drive est introuvable " + e);
             }
@@ -48,11 +49,11 @@ public class AppDataSource implements DataSource {
     }
 
 
-
-
     @Override
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, username, password);
+        var c = DriverManager.getConnection(url, username, password);
+        DataInitializer.initializeDatabase(c);
+        return c;
     }
 
     @Override

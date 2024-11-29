@@ -4,15 +4,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DataInitialiazer {
+public class DataInitializer {
 
     private static final String CREATE_TABLE_ANNONCES = """
         CREATE TABLE IF NOT EXISTS annonces (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            title TEXT NOT NULL,
-            path VARCHAR(2048) NOT NULL,
+            title TEXT,
+            path VARCHAR(2048),
             image VARCHAR(2048),
-            site TEXT NOT NULL,
+            site TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     """;
@@ -20,15 +20,15 @@ public class DataInitialiazer {
     private static final String CREATE_TABLE_RECHERCHES = """
         CREATE TABLE IF NOT EXISTS recherches (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            keywords TEXT NOT NULL,
+            keywords TEXT,
             sites JSON,
-            frequency INT NOT NULL
+            frequency INT
         );
     """;
 
-    public static void initializeDatabase() {
-        try (Connection connection = new AppDataSource().getConnection();
-             Statement statement = connection.createStatement()) {
+    public static void initializeDatabase(Connection connection) {
+        try (
+                Statement statement = connection.createStatement()) {
 
             statement.execute(CREATE_TABLE_ANNONCES);
             System.out.println("Table 'annonces' créée ou existe déjà.");
