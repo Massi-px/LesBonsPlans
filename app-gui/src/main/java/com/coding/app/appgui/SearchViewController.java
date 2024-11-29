@@ -56,7 +56,10 @@ public class SearchViewController {
     @FXML
     public void initialize() {
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        siteComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
+        siteComboBox.getItems().addAll(
+                SiteEnum.LES_BONS_PLANS.getName(),
+                SiteEnum.LE_BON_COIN.getName()
+        );
         listingsListView.setItems( observabled );
         keywordsField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
         siteComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
@@ -103,12 +106,12 @@ public class SearchViewController {
         var selectedSite = siteComboBox.getCheckModel().getCheckedItems().stream().toList();
 
         for (String site : selectedSite) {
-            if ("Les Bons Plans".equals(site)) {
+            if (SiteEnum.LES_BONS_PLANS.getName().equals(site)) {
                 scheduler.scheduleAtFixedRate(() -> Platform.runLater(
                         () -> fillListings(keywords, SiteEnum.LES_BONS_PLANS)
                         ), 0, getRefreshFrequency(), TimeUnit.SECONDS);
             }
-            if ("Le Bon Coin".equals(site)) {
+            if (SiteEnum.LE_BON_COIN.getName().equals(site)) {
                 scheduler.scheduleAtFixedRate(() -> Platform.runLater(
                         () -> fillListings(keywords, SiteEnum.LE_BON_COIN)
                 ), 0, getRefreshFrequency(), TimeUnit.SECONDS);

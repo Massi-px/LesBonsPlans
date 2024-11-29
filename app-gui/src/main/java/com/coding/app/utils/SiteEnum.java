@@ -4,16 +4,16 @@ package com.coding.app.utils;
 
 public enum SiteEnum {
 
-    LES_BONS_PLANS("Les Bon Plan", "http://localhost:8080/site_annonce_war/api/announcement?keyword="),
-    LE_BON_COIN("Le bon coin", "https://www.leboncoin.fr/recherche?text=");
+    LES_BONS_PLANS("Les Bons Plans", "http://localhost:8080/site_annonce_war/api/announcement?keyword="),
+    LE_BON_COIN("Leboncoin", "https://www.leboncoin.fr/recherche?text=");
 
 
     private final String url;
-    private final String site;
+    private final String name;
 
 
-    SiteEnum(String site, String url) {
-        this.site = site;
+    SiteEnum(String name, String url) {
+        this.name = name;
         this.url = url;
     }
 
@@ -21,7 +21,7 @@ public enum SiteEnum {
         return url;
     }
 
-    public String getSite() {
-        return site;
+    public String getName() {
+        return name;
     }
 }
