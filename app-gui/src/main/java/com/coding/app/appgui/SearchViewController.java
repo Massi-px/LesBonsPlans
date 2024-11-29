@@ -32,7 +32,7 @@ public class SearchViewController {
     @FXML
     private TextField keywordsField;
     @FXML
-    private CheckComboBox<String> siteCheckComboBox;
+    private CheckComboBox<String> siteComboBox;
     @FXML
     private TextField refreshFrequencyField;
     @FXML
@@ -56,10 +56,10 @@ public class SearchViewController {
     @FXML
     public void initialize() {
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
+        siteComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
         listingsListView.setItems( observabled );
         keywordsField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
-        siteCheckComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
+        siteComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> validateFields());
         refreshFrequencyField.textProperty().addListener((observable, oldValue, newValue) -> validateFields());
         onSearchHistory();
         // Initial validation
@@ -100,7 +100,7 @@ public class SearchViewController {
         startSearchButton.setDisable(true);
         stopSearchButton.setDisable(false);
         String keywords = keywordsField.getText();
-        var selectedSite = siteCheckComboBox.getCheckModel().getCheckedItems().stream().toList();
+        var selectedSite = siteComboBox.getCheckModel().getCheckedItems().stream().toList();
 
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
@@ -133,10 +133,12 @@ public class SearchViewController {
     private void onSaveSearchClick () {
         Recherche recherche = new Recherche();
         recherche.setKeywords(keywordsField.getText());
-        recherche.setSites(siteCheckComboBox.getCheckModel().getCheckedItems().toString());
+        recherche.setSites(siteComboBox.getCheckModel().getCheckedItems().toString());
         recherche.setFrequency(Integer.parseInt(refreshFrequencyField.getText()));
         rechercheDao.addRecherche(recherche);
-        siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
+        if (!siteHistoryCheck.getItems().contains("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency())) {
+            siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
+        }
     }
 
     private void onSearchHistory() {
@@ -148,7 +150,7 @@ public class SearchViewController {
 
     private void validateFields() {
         boolean isKeywordsFieldEmpty = keywordsField.getText().trim().isEmpty();
-        boolean isSiteCheckComboBoxEmpty = siteCheckComboBox.getCheckModel().getCheckedItems().isEmpty();
+        boolean isSiteCheckComboBoxEmpty = siteComboBox.getCheckModel().getCheckedItems().isEmpty();
         boolean isRefreshFrequencyFieldEmpty = refreshFrequencyField.getText().trim().isEmpty();
 
         // Disable the start button if any required field is empty

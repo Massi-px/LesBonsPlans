@@ -30,7 +30,7 @@
         </VBox>
         <VBox spacing="10.0">
             <Label text="Select Site:"/>
-            <CheckComboBox fx:id="siteCheckComboBox" prefWidth="200" accessibleText="Select your site..." />
+            <CheckComboBox fx:id="siteComboBox" prefWidth="200" accessibleText="Select your site..." />
         </VBox>
         <VBox spacing="10.0">
             <Label text="Refresh Frequency (seconds):"/>
