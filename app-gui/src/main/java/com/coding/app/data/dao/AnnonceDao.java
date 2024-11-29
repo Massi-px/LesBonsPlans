@@ -19,16 +19,16 @@ public class AnnonceDao {
             SELECT * FROM annonces WHERE id =?
             """;
     private static final String SQL_SELECT_BY_TITLE_AND_LINK = """
-            SELECT * FROM annonces WHERE title = ? AND link = ?
+            SELECT * FROM annonces WHERE title = ? AND path = ?
             """;
     private static final String SQL_SELECT_ALL = """
             SELECT * FROM annonces
             """;
     private static final String SQL_INSERT = """
-            INSERT INTO annonces (title, site, link, created_at) VALUES (?, ?, ?, ?)
+            INSERT INTO annonces (title, site, path, created_at) VALUES (?, ?, ?, ?)
             """;
     private static final String SQL_UPDATE = """
-            UPDATE annonces SET title = ?, site = ? ,ink = ?, created_at = ? WHERE id = ?
+            UPDATE annonces SET title = ?, site = ? , path = ?, created_at = ? WHERE id = ?
             """;
     private static final String SQL_DELETE = "DELETE FROM annonces WHERE id = ?";
 
@@ -44,7 +44,7 @@ public class AnnonceDao {
                 PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
                 statement.setString(1, annonce.getTitle());
                 statement.setString(2, "");
-                statement.setString(3, annonce.getLink());
+                statement.setString(3, annonce.getPath());
                 statement.setTimestamp(4, annonce.getCreatedAt());
                 statement.executeUpdate();
                 connection.close();
@@ -59,7 +59,7 @@ public class AnnonceDao {
             Connection connection = dbSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TITLE_AND_LINK);
             statement.setString(1, annonce.getTitle());
-            statement.setString(2, annonce.getLink());
+            statement.setString(2, annonce.getPath());
             ResultSet rs = statement.executeQuery();
             boolean exists = rs.next();
             connection.close();
@@ -112,7 +112,7 @@ public class AnnonceDao {
             PreparedStatement statement  = connection.prepareStatement(SQL_UPDATE);
             statement.setString(1, annonce.getTitle());
             statement.setString(2, annonce.getSite());
-            statement.setString(3, annonce.getLink());
+            statement.setString(3, annonce.getPath());
             statement.setTimestamp(4, annonce.getCreatedAt());
             statement.setInt(5, annonce.getId());
             statement.executeUpdate();

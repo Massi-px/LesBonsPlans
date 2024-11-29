@@ -3,6 +3,7 @@ package com.coding.app.wrappers;
 import com.coding.app.data.model.Annonce;
 import com.coding.app.utils.ApiUtils;
 import com.coding.app.utils.SiteEnum;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -52,6 +53,7 @@ public class LeBonCoinWrapper extends SiteWrapper {
             );
             displayListings(annonce, (ObservableList<Annonce>) obs );
         }
+        Thread.currentThread().interrupt();
     }
 }
 

@@ -39,15 +39,16 @@ public class SBPWrapper extends SiteWrapper {
                 Map<String, String> map = (Map<String, String>) o;
                 Annonce a = new Annonce();
                 a.setTitle( map.get( "title" ) );
-                a.setLink( map.get( "path" ) );
+                a.setPath( map.get( "path" ) );
                 //a.setImage( map.get( "image" ) );
                 a.setSite( map.get( "link" ) );
                 a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
 
                 displayListings(a, (ObservableList<Annonce>) obs );
             }
-
+            Thread.currentThread().interrupt();
         } catch (JsonProcessingException e) {
+            Thread.currentThread().interrupt();
             throw new RuntimeException( e );
         }
 
@@ -60,7 +61,7 @@ public class SBPWrapper extends SiteWrapper {
         for (Map<String, String> res : results) {
             Annonce a = new Annonce();
             a.setTitle( res.get( "title" ) );
-            a.setLink( res.get( "link" ) );
+            a.setPath( res.get( "link" ) );
             a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
             list.add( a );
         }
@@ -68,14 +69,4 @@ public class SBPWrapper extends SiteWrapper {
         return list;
 
     }
-
-    /*
-        private int id;
-    private String title;
-    private String path;
-    private String image;
-    private String site;
-    private Timestamp createdAt;
-     */
-
 }

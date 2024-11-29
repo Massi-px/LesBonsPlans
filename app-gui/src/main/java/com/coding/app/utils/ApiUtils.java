@@ -4,10 +4,7 @@ import com.coding.app.data.model.Annonce;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.ObservableList;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -58,7 +55,7 @@ public class ApiUtils {
                 Map<String, String> map = (Map<String, String>) o;
                 Annonce a = new Annonce();
                 a.setTitle( map.get( "title" ) );
-                a.setLink( map.get( "path" ) );
+                a.setPath( map.get( "path" ) );
                 //a.setImage( map.get( "image" ) );
                 a.setSite( map.get( "site" ) );
                 a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
@@ -73,7 +70,7 @@ public class ApiUtils {
     }
 
     public static void displayListings(Annonce a, ObservableList<Annonce> obs) {
-      obs.add(a );
+      obs.addFirst(a );
     }
 
 

@@ -4,8 +4,10 @@ import com.coding.app.data.dao.AnnonceDao;
 import com.coding.app.data.model.Annonce;
 import com.coding.app.dispacher.Dispatcher;
 import com.coding.app.utils.SiteEnum;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -24,7 +26,8 @@ public class SearchViewController {
     private TextField refreshFrequencyField;
     @FXML
     private ListView<Annonce> listingsListView;
-    //private ListView<String> listingsListView;
+
+    private final Dispatcher dispatcher = new Dispatcher();
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
 
@@ -74,15 +77,11 @@ public class SearchViewController {
         }
     }
 
-
-    private final Dispatcher dispatcher = new Dispatcher();
-
     private void fillListings(String keywords, SiteEnum siteEnum) {
 
-        Thread.ofVirtual().start(() -> {
+        Platform.runLater(new Runnable() {public void run() {
             dispatcher.dispatch( siteEnum, keywords, observabled );
-            Thread.currentThread().interrupt();
-        });
+        }});
 
     }
 
