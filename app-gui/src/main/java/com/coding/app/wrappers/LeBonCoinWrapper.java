@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 import static com.coding.app.utils.ApiUtils.displayListings;
@@ -46,8 +47,8 @@ public class LeBonCoinWrapper extends SiteWrapper {
             Annonce annonce = new Annonce(
                     title,
                     imageUrl,
-                    //imageUrl,
                     "https://www.leboncoin.fr"+ lienannonce,
+                    null,
                     new Timestamp(System.currentTimeMillis())
 
             );

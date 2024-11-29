@@ -1,5 +1,6 @@
 package com.coding.app.data.model;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 public class Annonce {
@@ -8,24 +9,26 @@ public class Annonce {
     private String title;
     private String site;
     private String path;
-    //private Blob image;
+    private Blob image;
     private Timestamp createdAt;
 
     public Annonce() {
     }
 
-    public Annonce(int id, String title, String site, String path, Timestamp createdAt) {
+    public Annonce(int id, String title, String site, String path, Blob image, Timestamp createdAt) {
         this.id = id;
         this.title = title;
         this.site = site;
         this.path = path;
+        this.image = image;
         this.createdAt = createdAt;
     }
 
-    public Annonce(String title, String site, String path, Timestamp createdAt) {
+    public Annonce(String title, String site, String path, Blob image, Timestamp createdAt) {
         this.title = title;
         this.site = site;
         this.path = path;
+        this.image = image;
         this.createdAt = createdAt;
     }
 
@@ -61,6 +64,14 @@ public class Annonce {
         this.path = path;
     }
 
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
+    }
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -75,7 +86,8 @@ public class Annonce {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", site='" + site + '\'' +
-                ", link='" + path + '\'' +
+                ", path='" + path + '\'' +
+                ", image=" + image +
                 ", createdAt=" + createdAt +
                 '}';
     }

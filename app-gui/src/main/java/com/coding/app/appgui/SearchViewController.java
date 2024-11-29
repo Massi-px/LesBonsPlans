@@ -7,7 +7,6 @@ import com.coding.app.utils.SiteEnum;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -31,21 +30,24 @@ public class SearchViewController {
 
     ObservableList<Annonce> observabled = FXCollections.observableArrayList();
 
+    private long refresh;
 
     @FXML
     public void initialize() {
+
+        refresh = 1L;
+
         siteCheckComboBox.getItems().addAll("Les Bons Plans", "Le Bon Coin");
         listingsListView.setItems( observabled );
 
         // Create context menu
         ContextMenu contextMenu = new ContextMenu();
         MenuItem    menuItem   = new MenuItem("save");
-        //MenuItem    menuItem2   = new MenuItem("Option 2");
-        contextMenu.getItems().addAll(menuItem/*, menuItem2*/);
+        contextMenu.getItems().addAll(menuItem);
 
         // Set context menu to the ListView
         listingsListView.setContextMenu(contextMenu);
-        // Set action event handler for menuItem1
+        // Set action event handler for menuItem
         menuItem.setOnAction(event -> handleSaveAction());
     }
 
@@ -56,13 +58,15 @@ public class SearchViewController {
 
         String refreshFrequency = refreshFrequencyField.getText();
 
+        if (refreshFrequency!= null &&!refreshFrequency.isEmpty()) {
+            refresh = Long.parseLong(refreshFrequency) * 1000;
+        }
+
         for (String site : selectedSite) {
             if ("Les Bons Plans".equals(site)) {
-                // Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LES_BONS_PLANS));
                 fillListings(keywords, SiteEnum.LES_BONS_PLANS);
             }
             if ("Le Bon Coin".equals(site)) {
-                //Thread.ofVirtual().start(() -> fillListings(keywords, SiteEnum.LE_BON_COIN));
                 fillListings(keywords, SiteEnum.LE_BON_COIN);
             }
         }
@@ -79,6 +83,12 @@ public class SearchViewController {
 
     private void fillListings(String keywords, SiteEnum siteEnum) {
 
+        long current = System.currentTimeMillis();
+        long end = current + refresh * 1000;
+//        while (System.currentTimeMillis() < end) {
+//            Thread.sleep(1000);
+//        }
+
         Platform.runLater(new Runnable() {public void run() {
             dispatcher.dispatch( siteEnum, keywords, observabled );
         }});
@@ -87,7 +97,7 @@ public class SearchViewController {
 
     // Action event handler for menuItem saved state
     private void handleSaveAction() {
-
+        onSaveSelectedClick();
     }
 
 

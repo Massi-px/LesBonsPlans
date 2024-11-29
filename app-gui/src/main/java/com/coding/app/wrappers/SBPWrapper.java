@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.ObservableList;
 
+
+import java.sql.Blob;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +38,12 @@ public class SBPWrapper extends SiteWrapper {
             var mappingTab = new ObjectMapper().readValue(response, ArrayList.class);
 
             for (Object o : mappingTab) {
-                Map<String, String> map = (Map<String, String>) o;
+                Map<String, Object> map = (Map<String, Object>) o;
                 Annonce a = new Annonce();
-                a.setTitle( map.get( "title" ) );
-                a.setPath( map.get( "path" ) );
-                //a.setImage( map.get( "image" ) );
-                a.setSite( map.get( "link" ) );
+                a.setTitle( (String) map.get( "title" ) );
+                a.setPath( (String) map.get( "path" ) );
+                a.setImage( null );
+                a.setSite( (String) map.get( "link" ) );
                 a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
 
                 displayListings(a, (ObservableList<Annonce>) obs );

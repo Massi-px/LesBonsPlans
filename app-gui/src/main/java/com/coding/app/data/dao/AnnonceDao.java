@@ -25,10 +25,10 @@ public class AnnonceDao {
             SELECT * FROM annonces
             """;
     private static final String SQL_INSERT = """
-            INSERT INTO annonces (title, site, path, created_at) VALUES (?, ?, ?, ?)
+            INSERT INTO annonces (title, site, path,image, created_at) VALUES (?, ?, ?, ?, ?)
             """;
     private static final String SQL_UPDATE = """
-            UPDATE annonces SET title = ?, site = ? , path = ?, created_at = ? WHERE id = ?
+            UPDATE annonces SET title = ?, site = ? , path = ?, created_at = ?, image=? WHERE id = ?
             """;
     private static final String SQL_DELETE = "DELETE FROM annonces WHERE id = ?";
 
@@ -43,9 +43,10 @@ public class AnnonceDao {
                 Connection connection = dbSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
                 statement.setString(1, annonce.getTitle());
-                statement.setString(2, "");
+                statement.setString(2, annonce.getSite() );
                 statement.setString(3, annonce.getPath());
-                statement.setTimestamp(4, annonce.getCreatedAt());
+                statement.setBlob(4, annonce.getImage());
+                statement.setTimestamp(5, annonce.getCreatedAt());
                 statement.executeUpdate();
                 connection.close();
             } catch (SQLException e) {
@@ -106,21 +107,7 @@ public class AnnonceDao {
         return List.of();
     }
 
-    public void updateAnnonce(Annonce annonce) {
-        try {
-            Connection        connection = dbSource.getConnection();
-            PreparedStatement statement  = connection.prepareStatement(SQL_UPDATE);
-            statement.setString(1, annonce.getTitle());
-            statement.setString(2, annonce.getSite());
-            statement.setString(3, annonce.getPath());
-            statement.setTimestamp(4, annonce.getCreatedAt());
-            statement.setInt(5, annonce.getId());
-            statement.executeUpdate();
-            connection.close();
-        } catch (SQLException e) {
-            System.out.println("Une erreur s'est produite lors de la connexion à la base de données. " + e);
-        }
-    }
+
 
     public void deleteAnnonce(int id) {
         try {
@@ -140,9 +127,9 @@ public class AnnonceDao {
                 resultSet.getInt("id"),
                 resultSet.getString("title"),
                 resultSet.getString("site"),
-                resultSet.getString("link"),
+                resultSet.getString("path"),
+                resultSet.getBlob("image"),
                 resultSet.getTimestamp("created_at")
         );
     }
-
 }
