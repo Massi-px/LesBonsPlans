@@ -9,7 +9,7 @@ Application de recherche d'annonce issue de plusieurs site
 - [Project Structure](#project-structure)
 - [Technologies](#technologies)
 - [Contributing](#contributing)
-- [License](#license)
+
 
 ## Features
 
@@ -24,23 +24,21 @@ Application de recherche d'annonce issue de plusieurs site
     ```sh
     git clone https://github.com/Rdjaouzi/LesBonsPlans.git
     ```
-2. Navigate to the project directory:
-    ```sh
-    cd LesBonsPlans
-    ```
-3. Build the project using Maven:
-    ```sh
-    mvn clean install
-    ```
+2. **Open the project in your favorite IDE**:
+3. **Run the Docker compose file**:
+   
+4. **site-annonce**:
+   - mvn clean install
+   - run the file db.sql in the database
+   - and deploy the project war in Tomcat 9 server
+
+5. **APP-GUI**:
+    
 
 ## Usage
 
-1. Run the application:
-    ```sh
-    mvn javafx:run
-    ```
-2. Use the search interface to enter keywords, select sites, and set refresh frequency.
-3. View and manage the search results in the listings view.
+1. Use the search interface to enter keywords, select sites, and set refresh frequency.
+2. View and manage the search results in the listings view.
 
 ## Project Structure
 
@@ -55,5 +53,10 @@ Application de recherche d'annonce issue de plusieurs site
 - Java
 - JavaFX
 - Maven
-- SQL
-- Jsoup
+- JDBC
+- MARIA DB
+- Docker
+
+## contributing
+
+MASSI RIADH SAMI
