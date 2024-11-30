@@ -37,7 +37,7 @@ public class SearchViewController {
     @FXML
     private TextField refreshFrequencyField;
     @FXML
-    private ListView<Annonce> listingsListView;
+    private ListView<Object> listingsListView;
     @FXML
     private Button startSearchButton;
     @FXML
@@ -49,7 +49,7 @@ public class SearchViewController {
 
     private final Dispatcher dispatcher = new Dispatcher();
 
-    ObservableList<Annonce> observabled = FXCollections.observableArrayList();
+    ObservableList<Object> observabled = FXCollections.observableArrayList();
     private final AnnonceDAO annonceDao = new AnnonceDAO();
     private final RechercheDAO rechercheDao = new RechercheDAO();
     ScheduledExecutorService scheduler;
@@ -132,9 +132,11 @@ public class SearchViewController {
 
     @FXML
     private void onSaveSelectedClick() {
-        List<Annonce> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
-        for (Annonce annonce : selectedAnnonces) {
-            annonceDao.save( annonce );
+        ObservableList<Object> selectedAnnonces = listingsListView.getSelectionModel().getSelectedItems();
+        for (Object annonce : selectedAnnonces) {
+            if (annonce instanceof Annonce a) {
+                annonceDao.save(a);
+            }
         }
     }
 
@@ -205,10 +207,17 @@ public class SearchViewController {
 
     public void onKeyPressedfilter(KeyEvent keyEvent) {
         String key = searchListingsField.getCharacters().toString();
-        ObservableList<Annonce> filteredList = FXCollections.observableArrayList();
-        for (Annonce annonce : observabled) {
-            if (annonce.getTitle().toLowerCase( Locale.ROOT ).contains(key.toLowerCase( Locale.ROOT ))) {
-                filteredList.add(annonce);
+        ObservableList<Object> filteredList = FXCollections.observableArrayList();
+        for (Object annonce : observabled) {
+            if (annonce instanceof Annonce a) {
+                if (a.getTitle().toLowerCase( Locale.ROOT ).contains(key.toLowerCase( Locale.ROOT ))) {
+                    filteredList.add(a);
+                }
+            } else {
+                String a = (String) annonce;
+                if (a.contains(key)) {
+                    filteredList.add(annonce);
+                }
             }
         }
         listingsListView.setItems(filteredList);
