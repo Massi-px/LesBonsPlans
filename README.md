@@ -33,7 +33,8 @@ Application de recherche d'annonce issue de plusieurs site
    - and deploy the project war in Tomcat 9 server
 
 5. **APP-GUI**:
-    
+    - mvn clean install
+    - run the project in the class com.coding.app.appgui.AppScreen
 
 ## Usage
 
