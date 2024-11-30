@@ -54,6 +54,14 @@
     -fx-background-color: #138496;
 }
 
+.button-load-search {
+    -fx-background-color: #6c757d; /* New color */
+    -fx-text-fill: white;
+}
+
+.button-load-search:hover {
+    -fx-background-color: #5a6268; /* New hover color */
+}
 .list-view {
     -fx-border-color: #ccc;
     -fx-border-radius: 5px;

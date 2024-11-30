@@ -37,30 +37,16 @@
         <VBox spacing="10.0">
             <Label text="Select Save Search:"/>
             <ComboBox fx:id="siteHistoryCheck" prefWidth="200" accessibleText="Select your save search..." />
-            <HBox>
+            <HBox spacing="5.0">
                 <Button text="Save Search" onAction="#onSaveSearchClick" styleClass="button-save-search"/>
-                <Button text="Load Search" onAction="#onLoadSearch" styleClass="button-save-search"/>
+                <Button text="Load Search" onAction="#onLoadSearch" styleClass="button-load-search"/>
             </HBox>
     </VBox>
     </HBox>
     <HBox spacing="20.0" alignment="CENTER_LEFT">
-        <VBox spacing="10.0">
-            <padding>
-                <Insets top="20.0"/>
-            </padding>
             <Button fx:id="startSearchButton" text="Start Search" onAction="#onStartSearchClick" styleClass="button-primary"/>
-        </VBox>
-        <VBox spacing="10.0">
-            <padding>
-                <Insets top="20.0"/>
-            </padding>
             <Button fx:id="stopSearchButton" text="Stop Search" onAction="#onStopSearchClick" styleClass="button-secondary" disable="true"/>
-        </VBox>
-        <VBox spacing="10.0">
-            <padding>
-                <Insets top="20.0"/>
-            </padding>
-        </VBox>
+            <Button text="Clear Search" onAction="#onClearSearchClick" />
     </HBox>
     <ListView fx:id="listingsListView" styleClass="custom-list-view">
         <items>
@@ -70,7 +56,6 @@
     <HBox spacing="10.0" alignment="CENTER_LEFT">
         <Button text="Save Selected Announcements" onAction="#onSaveSelectedClick" styleClass="button-save"/>
         <Region fx:id="spacer" />
-        <Button text="Clear Search" onAction="#onClearSearchClick" />
         <TextField fx:id="searchListingsField" onKeyTyped="#onKeyPressedfilter" promptText="Search listings" maxWidth="200"/>
     </HBox>
 </VBox>
