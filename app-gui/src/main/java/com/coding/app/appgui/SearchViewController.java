@@ -5,6 +5,7 @@ import com.coding.app.data.dao.RechercheDAO;
 import com.coding.app.data.model.Annonce;
 import com.coding.app.data.model.Recherche;
 import com.coding.app.dispacher.Dispatcher;
+import com.coding.app.utils.ApiUtils;
 import com.coding.app.utils.SiteEnum;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

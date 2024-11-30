@@ -21,6 +21,9 @@ import java.util.Map;
 
 public class ApiUtils {
 
+    public static final String LES_BONS_PLANS_UNAVAILABLE = "Le site :\n" + SiteEnum.LES_BONS_PLANS.getName() + "\nest actuellement indisponible";
+    public static final String LE_BON_COIN_UNAVAILABLE = "Le site :\n" + SiteEnum.LE_BON_COIN.getName() + "\nest actuellement indisponible";
+
     public static String jsonResponseAPI(
             String url,
             String keyword
@@ -41,8 +44,8 @@ public class ApiUtils {
             return content.toString();
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return List.of().toString();
     }
 
 
@@ -107,12 +110,12 @@ public class ApiUtils {
                 in.close();
                 return response.toString();
             }else {
-                System.out.println("POST request did not work.");
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return List.of().toString();
     }
 
 

@@ -29,6 +29,11 @@ public class LeBonCoinWrapper extends SiteWrapper {
     @Override
     public <T> void search(ObservableList<T> obs) {
         String response = ApiUtils.getListLeBonCoin( getUrl(), getParams());
+        if (response == null) {
+            obs.addFirst( (T) (ApiUtils.LE_BON_COIN_UNAVAILABLE) );
+            Thread.currentThread().interrupt();
+            return;
+        }
         fillObservableList( response, obs );
     }
 

@@ -27,6 +27,11 @@ public class SBPWrapper extends SiteWrapper {
     @Override
     public <T> void search(ObservableList<T> obs) {
         String results = ApiUtils.jsonResponseAPI( getUrl(), getParams() );
+        if (results == null) {
+            obs.addFirst( (T) (ApiUtils.LES_BONS_PLANS_UNAVAILABLE) );
+            Thread.currentThread().interrupt();
+            return;
+        }
         fillObservableList( results, obs );
     }
 

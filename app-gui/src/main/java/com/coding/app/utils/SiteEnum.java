@@ -5,7 +5,7 @@ package com.coding.app.utils;
 public enum SiteEnum {
 
     LES_BONS_PLANS("Les Bons Plans", "http://localhost:8080/site_annonce_war/api/announcement?keyword="),
-    LE_BON_COIN("Leboncoin", "https://www.leboncoin.fr/recherche?text=");
+    LE_BON_COIN("Leboncoin", "https://www.lelboncoin.fr/recherche?text=");
 
 
     private final String url;
