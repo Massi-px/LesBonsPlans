@@ -43,7 +43,8 @@ public class SearchViewController {
     private Button stopSearchButton;
     @FXML
     private Region spacer;
-
+    @FXML
+    private Region spacer2;
 
     private final Dispatcher dispatcher = new Dispatcher();
 
@@ -56,6 +57,7 @@ public class SearchViewController {
     @FXML
     public void initialize() {
         HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox.setHgrow(spacer2, Priority.ALWAYS);
         siteComboBox.getItems().addAll(
                 SiteEnum.LES_BONS_PLANS.getName(),
                 SiteEnum.LE_BON_COIN.getName()
@@ -122,6 +124,9 @@ public class SearchViewController {
     @FXML
     protected void onClearSearchClick() {
         observabled.clear();
+        refreshFrequencyField.setText("1");
+        siteComboBox.getCheckModel().clearChecks();
+
     }
 
     @FXML
@@ -133,21 +138,41 @@ public class SearchViewController {
     }
 
     @FXML
-    private void onSaveSearchClick () {
+    private void onLoadSearch() {
+        String selectedSearch = siteHistoryCheck.getValue();
+        if (selectedSearch != null && !selectedSearch.isEmpty()) {
+            String[] searchParts = selectedSearch.split(";");
+            String keywords = searchParts[0].split("Keywords: ")[1];
+            String sites = searchParts[1].split(" Sites: ")[1];
+            int frequency = Integer.parseInt(searchParts[2].split(" Frequency: ")[1]);
+            keywordsField.setText(keywords);
+            refreshFrequencyField.setText(String.valueOf(frequency));
+            siteComboBox.getCheckModel().clearChecks();
+            String[] siteArray = sites.split(", ");
+            for (String site : siteArray) {
+                siteComboBox.getCheckModel().check(site);
+            }
+        }
+    }
+
+    @FXML
+    private void onSaveSearchClick() {
         Recherche recherche = new Recherche();
-        recherche.setKeywords(keywordsField.getText());
-        recherche.setSites(siteComboBox.getCheckModel().getCheckedItems().toString());
-        recherche.setFrequency(Integer.parseInt(refreshFrequencyField.getText()));
-        rechercheDao.addRecherche(recherche);
-        if (!siteHistoryCheck.getItems().contains("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency())) {
-            siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
+        if(!keywordsField.getText().isEmpty() && !siteComboBox.getCheckModel().getCheckedItems().isEmpty() && !refreshFrequencyField.getText().isEmpty()) {
+            recherche.setKeywords(keywordsField.getText());
+            recherche.setSites(String.join(", ", siteComboBox.getCheckModel().getCheckedItems()));
+            recherche.setFrequency(Integer.parseInt(refreshFrequencyField.getText()));
+            rechercheDao.addRecherche(recherche);
+            if (!siteHistoryCheck.getItems().contains("Keywords: " + recherche.getKeywords() + "; Sites: " + recherche.getSites() + "; Frequency: " + recherche.getFrequency())) {
+                siteHistoryCheck.getItems().add("Keywords: " + recherche.getKeywords() + "; Sites: " + recherche.getSites() + "; Frequency: " + recherche.getFrequency());
+            }
         }
     }
 
     private void onSearchHistory() {
         List<Recherche> recherches = rechercheDao.getAllRecherches();
         for (Recherche recherche : recherches) {
-            siteHistoryCheck.getItems().add("Keywords " + recherche.getKeywords() + "," + " Sites " + recherche.getSites() + "," + " Frequency " + recherche.getFrequency());
+            siteHistoryCheck.getItems().add("Keywords: " + recherche.getKeywords() + "; Sites: " + recherche.getSites() + "; Frequency: " + recherche.getFrequency());
         }
     }
 
@@ -155,8 +180,6 @@ public class SearchViewController {
         boolean isKeywordsFieldEmpty = keywordsField.getText().trim().isEmpty();
         boolean isSiteCheckComboBoxEmpty = siteComboBox.getCheckModel().getCheckedItems().isEmpty();
         boolean isRefreshFrequencyFieldEmpty = refreshFrequencyField.getText().trim().isEmpty();
-
-        // Disable the start button if any required field is empty
         startSearchButton.setDisable(isKeywordsFieldEmpty || isSiteCheckComboBoxEmpty || isRefreshFrequencyFieldEmpty);
     }
 

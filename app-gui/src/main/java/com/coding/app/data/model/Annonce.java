@@ -83,15 +83,7 @@ public class Annonce {
 
     @Override
     public String toString() {
-        return "Title: " + title + "\nLink: " + site + "\nImage: " + path + "\nDate: " + createdAt;
-                /*"Annonce{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", site='" + site + '\'' +
-                ", path='" + path + '\'' +
-                ", image=" + image +
-                ", createdAt=" + createdAt +
-                '}'; */
+        return "Title: " + title + "\nSite: " + site + "\nLink: " + path + "\nDate: " + createdAt;
     }
 
     @Override

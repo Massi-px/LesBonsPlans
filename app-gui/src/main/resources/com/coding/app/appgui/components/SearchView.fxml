@@ -16,14 +16,7 @@
     <padding>
         <Insets top="20.0"/>
     </padding>
-    <HBox spacing="20.0" alignment="TOP_RIGHT">
-        <Label text="Select Save Search:"/>
-        <ComboBox fx:id="siteHistoryCheck" prefWidth="200" accessibleText="Select your save search..." />
-        <VBox spacing="10.0">
-            <Button text="Save Search" onAction="#onSaveSearchClick" styleClass="button-save-search"/>
-        </VBox>
-    </HBox>
-    <HBox spacing="20.0" alignment="CENTER_LEFT">
+    <HBox spacing="20.0">
         <VBox spacing="10.0">
             <Label text="Keywords:"/>
             <TextField fx:id="keywordsField" promptText="Enter keywords" maxWidth="200"/>
@@ -40,6 +33,17 @@
                 <Button text="+" onAction="#increaseRefreshFrequency"/>
             </HBox>
         </VBox>
+        <Region fx:id="spacer2" />
+        <VBox spacing="10.0">
+            <Label text="Select Save Search:"/>
+            <ComboBox fx:id="siteHistoryCheck" prefWidth="200" accessibleText="Select your save search..." />
+            <HBox>
+                <Button text="Save Search" onAction="#onSaveSearchClick" styleClass="button-save-search"/>
+                <Button text="Load Search" onAction="#onLoadSearch" styleClass="button-save-search"/>
+            </HBox>
+    </VBox>
+    </HBox>
+    <HBox spacing="20.0" alignment="CENTER_LEFT">
         <VBox spacing="10.0">
             <padding>
                 <Insets top="20.0"/>

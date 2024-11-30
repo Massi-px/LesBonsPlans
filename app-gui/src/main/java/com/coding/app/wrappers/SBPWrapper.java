@@ -39,9 +39,9 @@ public class SBPWrapper extends SiteWrapper {
                 Map<String, Object> map = (Map<String, Object>) o;
                 Annonce a = new Annonce();
                 a.setTitle( (String) map.get( "title" ) );
-                a.setPath( (String) map.get( "path" ) );
+                a.setPath( (String) map.get( "link" ) );
                 a.setImage( null );
-                a.setSite( (String) map.get( "link" ) );
+                a.setSite("http://localhost:8080");
                 a.setCreatedAt( new Timestamp(System.currentTimeMillis()) );
 
                 displayListings(a, (ObservableList<Annonce>) obs );

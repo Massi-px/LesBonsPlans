@@ -4,10 +4,11 @@ import com.coding.app.data.dao.AnnonceDAO;
 import com.coding.app.data.model.Annonce;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import org.controlsfx.control.CheckComboBox;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -21,7 +22,7 @@ public class ManageListingsViewController {
     private ListView<Annonce> savedListingsListView;
 
     @FXML
-    private ComboBox<String> siteFilterComboBox;
+    private CheckComboBox<String> siteFilterCheckComboBox;
 
     private final AnnonceDAO annonceDao = new AnnonceDAO();
     private ObservableList<Annonce> annonces;
@@ -31,13 +32,15 @@ public class ManageListingsViewController {
         annonces = FXCollections.observableArrayList(); // Initialize the annonces list
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> Platform.runLater(this::loadAnnonces), 0, 5, TimeUnit.MINUTES);
-        setupSiteFilter();
+        // Add listener to CheckComboBox
+        siteFilterCheckComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> onFilterChange());
     }
 
     private void loadAnnonces() {
         List<Annonce> annonceList = annonceDao.getAll();
         annonces = FXCollections.observableArrayList(annonceList);
         savedListingsListView.setItems(annonces);
+        setupSiteFilter(); // Call setupSiteFilter after loading annonces
     }
 
     private void setupSiteFilter() {
@@ -45,7 +48,7 @@ public class ManageListingsViewController {
                 .map(Annonce::getSite)
                 .distinct()
                 .collect(Collectors.toList());
-        siteFilterComboBox.setItems(FXCollections.observableArrayList(sites));
+        siteFilterCheckComboBox.getItems().setAll(sites);
     }
 
     @FXML
@@ -55,12 +58,12 @@ public class ManageListingsViewController {
 
     @FXML
     private void onFilterChange() {
-        String selectedSite = siteFilterComboBox.getValue();
-        if (selectedSite == null || selectedSite.isEmpty()) {
+        List<String> selectedSites = siteFilterCheckComboBox.getCheckModel().getCheckedItems();
+        if (selectedSites.isEmpty()) {
             savedListingsListView.setItems(annonces);
         } else {
             List<Annonce> filteredAnnonces = annonces.stream()
-                    .filter(annonce -> annonce.getSite().equals(selectedSite))
+                    .filter(annonce -> selectedSites.contains(annonce.getSite()))
                     .collect(Collectors.toList());
             savedListingsListView.setItems(FXCollections.observableArrayList(filteredAnnonces));
         }
